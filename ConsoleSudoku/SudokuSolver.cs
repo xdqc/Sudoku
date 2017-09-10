@@ -46,30 +46,26 @@ namespace ConsoleSudoku
             }
         }
 
-        private static void ConfirmSingleCandidate(this Grid grid)
+        private static void ConfirmNakedSingle(this Sudoku grid)
         {
-            foreach (var cell in grid)
+            foreach (var cell in grid.NakedSingles)
             {
-                if (cell.Candidates != null)
-                {
-                    if (cell.Candidates.Count == 1)
-                    {
-                        cell.Digit = cell.Candidates[0];
-                    }
-                }
+                cell.Digit = cell.Candidates[0];
             }
             grid.LabelAllCanditates();
         }
 
-        public static void ConfirmSingleCandidates(this Grid grid)
+        public static void SolveNakedSingles(this Sudoku grid)
         {
             bool hasSingleCandidate = true;
             do
             {
-                grid.ConfirmSingleCandidate();
+                grid.ConfirmNakedSingle();
                 var unfilledCells = grid.Where(c => c.Digit == null);
                 hasSingleCandidate = unfilledCells.Any(c => c.Candidates.Count == 1);
             } while (hasSingleCandidate);
         }
+
+
     }
 }

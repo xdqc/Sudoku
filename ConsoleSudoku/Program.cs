@@ -19,7 +19,7 @@ namespace ConsoleSudoku
 
             g1.PrintCandidates();
 
-            g1.ConfirmSingleCandidates();
+            g1.SolveNakedSingles();
             g1.PrintGrid();
             g1.PrintCandidates();
 

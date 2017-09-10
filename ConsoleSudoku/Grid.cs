@@ -19,11 +19,12 @@ namespace ConsoleSudoku
         private HashSet<Cell> grid;
         private House[] rows = new Row[9];
         private House[] columns = new Column[9];
-        private House[,] blocks = new Block[3,3];
+        private House[,] blocks = new Block[3, 3];
 
         public House[] Columns
         {
-            get {
+            get
+            {
                 if (columns[0] != null)
                 {
                     return columns;
@@ -32,7 +33,8 @@ namespace ConsoleSudoku
                 {
                     columns[c] = new Column(grid, c);
                 }
-                return columns; }
+                return columns;
+            }
         }
 
         public House[] Rows
@@ -55,7 +57,7 @@ namespace ConsoleSudoku
         {
             get
             {
-                if (blocks[0,0] != null)
+                if (blocks[0, 0] != null)
                 {
                     return blocks;
                 }
@@ -70,6 +72,26 @@ namespace ConsoleSudoku
             }
         }
 
+        public IEnumerable<House> Houses
+        {
+            get
+            {
+                var houses = new List<House>();
+                foreach (var house in Rows)
+                {
+                    houses.Add(house);
+                }
+                foreach (var house in Columns)
+                {
+                    houses.Add(house);
+                }
+                foreach (var house in Blocks)
+                {
+                    houses.Add(house);
+                }
+                return Houses;
+            }
+        }
 
 
 
