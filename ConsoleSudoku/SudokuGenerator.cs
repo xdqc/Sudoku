@@ -8,7 +8,7 @@ namespace ConsoleSudoku
 {
     public static class SudokuGenerator
     {
-        const int NumberOfEmptyCells = 50;
+        const int NumberOfEmptyCells = 40;
 
         static Random r = new Random();
 
@@ -72,16 +72,8 @@ namespace ConsoleSudoku
                         }
                     } while (grid.FindNeighbors(cell).Select(c => c.Digit).Contains(cell.Digit));
                 }
-                Console.WriteLine($"row {i}, row tested {testRow}, grid tested {testGrid}");
+                //Console.WriteLine($"row {i}, row tested {testRow}, grid tested {testGrid}");
             }
-        }
-
-        public static IEnumerable<Cell> FindNeighbors(this Grid grid, Cell c)
-        {
-            // return other cells that can see the cell
-            return Enumerable.Concat(grid.Rows[c.Position.Item1], grid.Columns[c.Position.Item2])
-                      .Concat(grid.Blocks[c.Position.Item1 / 3, c.Position.Item2 / 3])
-                      .Where(x => x.Position != c.Position);
         }
 
         private static void HideCells(this Grid grid, int hideNum)

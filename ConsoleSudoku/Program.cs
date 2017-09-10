@@ -11,20 +11,31 @@ namespace ConsoleSudoku
         static void Main(string[] args)
         {
             Console.WriteLine("Welcome to Sudoku!");
-            var startTime = DateTime.Now;
 
+            for (int i = 0; i < 20; i++)
+            {
+                Run();
+            }
+
+
+
+            Console.ReadLine();
+        }
+
+        static void Run()
+        {
+            var startTime = DateTime.Now;
             var g1 = new Sudoku();
             Console.WriteLine();
             g1.PrintGrid();
+            g1.LabelAllCanditates();
 
-            g1.PrintCandidates();
+            g1.SolveStage_1();
 
-            g1.SolveNakedSingles();
+            Console.WriteLine();
             g1.PrintGrid();
-            g1.PrintCandidates();
 
             Console.WriteLine(DateTime.Now-startTime);
-            Console.ReadLine();
         }
     }
 }

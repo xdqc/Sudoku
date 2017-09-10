@@ -20,7 +20,20 @@ namespace ConsoleSudoku
             return rowSolved && colSolved && blockSolved;
         }
 
-        private static void LabelCandidates(this Grid grid, Cell cell)
+        public static void SolveStage_1(this Sudoku grid)
+        {
+            while (grid.NakedSingles.Count()>0 && !grid.IsSolved())
+            {
+                grid.SolveNakedSingles();
+                grid.ConfirmNakedPairs();
+                grid.ConfirmNakedTriples();
+
+            }
+        }
+
+        #region SoverHelper
+
+        private static void LabelCandidatesOneCell(this Grid grid, Cell cell)
         {
             // To all unfilled cells
             if (cell.Candidates != null)
@@ -42,7 +55,7 @@ namespace ConsoleSudoku
         {
             foreach (var cell in grid)
             {
-                grid.LabelCandidates(cell);
+                grid.LabelCandidatesOneCell(cell);
             }
         }
 
@@ -51,8 +64,13 @@ namespace ConsoleSudoku
             foreach (var cell in grid.NakedSingles)
             {
                 cell.Digit = cell.Candidates[0];
+                // remove the ele out of all neighbor' candidates 
+                grid.FindNeighbors(cell)
+                    .Where(c => c.Digit == null)
+                    .Where(c => c.Candidates.Contains(cell.Digit.Value))
+                    .ToList()
+                    .ForEach(c => c.Candidates.Remove(cell.Digit.Value));
             }
-            grid.LabelAllCanditates();
         }
 
         public static void SolveNakedSingles(this Sudoku grid)
@@ -66,6 +84,43 @@ namespace ConsoleSudoku
             } while (hasSingleCandidate);
         }
 
+        public static void ConfirmNakedPairs(this Sudoku grid)
+        {
+            foreach (var np in grid.NakedPairs())
+            {
+                var house = np.Item5;
+                var cell1 = np.Item3;
+                var cell2 = np.Item4;
+                var elem1 = np.Item1;
+                var elem2 = np.Item2;
+                // candidates of the naked pair could have been eliminated by other naked pair in other house
 
+                house.Where(c => c.Digit == null)
+                     .Where(c => c != cell1 && c != cell2)
+                     .ToList()
+                     .ForEach(c => c.Candidates.RemoveAll(e => e == elem1 || e == elem2));
+
+            }
+        }
+
+        public static void ConfirmNakedTriples(this Sudoku grid)
+        {
+            foreach (var nt in grid.NakedTriples())
+            {
+                var house = nt.Item7;
+                var cell1 = nt.Item4;
+                var cell2 = nt.Item5;
+                var cell3 = nt.Item6;
+                var elem1 = nt.Item1;
+                var elem2 = nt.Item2;
+                var elem3 = nt.Item3;
+                house.Where(c => c.Digit == null)
+                     .Where(c => c != cell1 && c != cell2 && c != cell3)
+                     .ToList()
+                     .ForEach(c => c.Candidates.RemoveAll(e => e == elem1 || e == elem2 || e == elem3));
+
+            }
+        }
+        #endregion
     }
 }

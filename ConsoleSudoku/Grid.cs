@@ -20,6 +20,7 @@ namespace ConsoleSudoku
         private House[] rows = new Row[9];
         private House[] columns = new Column[9];
         private House[,] blocks = new Block[3, 3];
+        private List<House> houses = new List<House>();
 
         public House[] Columns
         {
@@ -76,23 +77,33 @@ namespace ConsoleSudoku
         {
             get
             {
-                var houses = new List<House>();
-                foreach (var house in Rows)
+                if (houses.Count>0)
+                {
+                    return houses;
+                }
+                foreach (Row house in Rows)
                 {
                     houses.Add(house);
                 }
-                foreach (var house in Columns)
+                foreach (Column house in Columns)
                 {
                     houses.Add(house);
                 }
-                foreach (var house in Blocks)
+                foreach (Block house in Blocks)
                 {
                     houses.Add(house);
                 }
-                return Houses;
+                return houses;
             }
         }
 
+        public IEnumerable<Cell> FindNeighbors(Cell c)
+        {
+            // return other cells that can see the cell
+            return Enumerable.Concat(Rows[c.Position.Item1], Columns[c.Position.Item2])
+                      .Concat(Blocks[c.Position.Item1 / 3, c.Position.Item2 / 3])
+                      .Where(x => x.Position != c.Position);
+        }
 
 
         #region ISet<Cell> Implementation
