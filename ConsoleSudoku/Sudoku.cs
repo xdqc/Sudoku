@@ -10,7 +10,7 @@ namespace ConsoleSudoku
     {
         public Sudoku()
         {
-            this.GenerateSudoku();
+            //this.GenerateSudoku();
         }
 
         public IEnumerable<Cell> NakedSingles =>

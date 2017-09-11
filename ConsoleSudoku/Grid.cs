@@ -13,7 +13,7 @@ namespace ConsoleSudoku
         {
             grid = new HashSet<Cell>();
             this.GenerateEmptyGrid();
-            this.GenerateFullGrid();
+            //this.GenerateFullGrid();
         }
 
         private HashSet<Cell> grid;
@@ -22,14 +22,12 @@ namespace ConsoleSudoku
         private House[,] blocks = new Block[3, 3];
         private List<House> houses = new List<House>();
 
+        public List<Cell> Cells => grid.OrderBy(c=>c.Position).ToList();
+
         public House[] Columns
         {
             get
             {
-                if (columns[0] != null)
-                {
-                    return columns;
-                }
                 for (int c = 0; c < 9; c++)
                 {
                     columns[c] = new Column(grid, c);
@@ -42,10 +40,6 @@ namespace ConsoleSudoku
         {
             get
             {
-                if (rows[0] != null)
-                {
-                    return rows;
-                }
                 for (int r = 0; r < 9; r++)
                 {
                     rows[r] = new Row(grid, r);
@@ -58,10 +52,6 @@ namespace ConsoleSudoku
         {
             get
             {
-                if (blocks[0, 0] != null)
-                {
-                    return blocks;
-                }
                 for (int i = 0; i < 3; i++)
                 {
                     for (int j = 0; j < 3; j++)

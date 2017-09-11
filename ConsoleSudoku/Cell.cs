@@ -23,7 +23,7 @@ namespace ConsoleSudoku
         {
             get {
                 if (Digit != null) {
-                    _candidates = null;
+                    //_candidates = null;
                     return null;
                 }
                 return _candidates;

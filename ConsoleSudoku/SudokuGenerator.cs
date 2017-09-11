@@ -14,11 +14,14 @@ namespace ConsoleSudoku
 
         public static void GenerateSudoku(this Grid grid)
         {
+            grid.GenerateEmptyGrid();
+            grid.GenerateFullGrid();
             grid.HideCells(NumberOfEmptyCells);
         }
 
         public static void GenerateEmptyGrid(this Grid grid)
         {
+            grid.Clear();
             for (int i = 0; i < 9; i++)
             {
                 for (int j = 0; j < 9; j++)
