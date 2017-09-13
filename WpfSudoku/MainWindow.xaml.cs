@@ -22,7 +22,7 @@ namespace WpfSudoku
     /// </summary>
     public partial class MainWindow : Window
     {
-        protected static Sudoku sudoku;
+        private static Sudoku sudoku;
         private Elements? DigitToBeWrite;
         private Elements? MarksToBeWrite;
         private Cell CellToBeWrite;
@@ -31,65 +31,115 @@ namespace WpfSudoku
         {
             InitializeComponent();
 
-            DataContext = this;
-            sudoku = new Sudoku();
-            DisplayCells(sudoku);
+            var VM = new SudokuViewModel(new Sudoku());
+            DataContext = VM;
+            sudoku = VM.Model;
+            sudoku.GenerateFullGrid();
+
+            AddEventHandlerToControls();
 
         }
 
 
-        private void DisplayCells(Sudoku grid)
+        //Find all controls in WPF Window by type
+        public static IEnumerable<T> FindVisualChildren<T>(DependencyObject depObj) where T : DependencyObject
         {
-            foreach (WrapPanel wp in Matrix.Children)
+            if (depObj != null)
             {
-                foreach (Button btn in wp.Children)
+                for (int i = 0; i < VisualTreeHelper.GetChildrenCount(depObj); i++)
                 {
-                    btn.Content = string.Empty;
-
-                    var btnPos = new Tuple<int, int>(btn.Name[1]-'0', btn.Name[2]-'0');
-                    var cellIdx = (btn.Name[1] - '0') * 9 + (btn.Name[2] - '0');
-                    if (grid.Cells[cellIdx].Digit != null)
+                    DependencyObject child = VisualTreeHelper.GetChild(depObj, i);
+                    if (child != null && child is T)
                     {
-                        btn.FontSize = 50;
-                        btn.Content = ((char)(grid.Cells[cellIdx].Digit + '1')).ToString();
+                        yield return (T)child;
                     }
-                    
-                }
-            }
-        }
 
-        private void DisplayMarks(Sudoku grid)
-        {
-            foreach (WrapPanel wp in Matrix.Children)
-            {
-                foreach (Button btn in wp.Children)
-                {
-                    //btn.Content = string.Empty;
-
-                    var cellIdx = (btn.Name[1] - '0') * 9 + (btn.Name[2] - '0');
-                    if (grid.Cells[cellIdx].Digit == null)
+                    foreach (T childOfChild in FindVisualChildren<T>(child))
                     {
-
-                        btn.FontSize = 18;
-                        btn.FontFamily = new FontFamily("Consolas");
-                        var btnContent = string.Empty;
-                        foreach (Elements ele in Enum.GetValues(typeof(Elements)))
-                        {
-                            btnContent += grid.Cells[cellIdx].Candidates.Contains(ele)
-                                ? (char)(ele+'1')
-                                : ' ';
-                        }
-                        btnContent = btnContent.Substring(0, 3) + '\n' + btnContent.Substring(3, 3) + '\n' + btnContent.Substring(6, 3);
-                        btn.Content = " " + String.Join<char>(" ", btnContent);
-
+                        yield return childOfChild;
                     }
                 }
             }
         }
 
+        private void AddEventHandlerToControls()
+        {
+
+            foreach (Button btn in FindVisualChildren<Button>(Matrix))
+            {
+                btn.Click += CellButton_Click;
+            }
+
+            foreach (Button btn in FindVisualChildren<Button>(DigitPanel))
+            {
+                btn.Click += DigitButton_Click;
+            }
+
+            foreach (Button btn in FindVisualChildren<Button>(MainGrid))
+            {
+                btn.Click += DisplayCell;
+            }
+        }
+
+
+
+        #region CellDataBinding
+        private string CellContentHelper(Cell cell)
+        {
+            var btnContent = string.Empty;
+            if (cell.Digit != null)
+            {
+                // Cell digit to string
+                return ((char)(cell.Digit + '1')).ToString();
+            }
+            else
+            {
+                // Cell candidate to string
+                foreach (Elements ele in Enum.GetValues(typeof(Elements)))
+                {
+                    btnContent += cell.Candidates.Contains(ele)
+                        ? (char)(ele + '1')
+                        : ' ';
+                }
+                btnContent = btnContent.Substring(0, 3) + '\n' + btnContent.Substring(3, 3) + '\n' + btnContent.Substring(6, 3);
+                return " " + String.Join<char>(" ", btnContent);
+            }
+        }
+
+        private ContentControl CellContent(Cell cell)
+        {
+            return
+                new ContentControl()
+                {
+                    FontFamily = new FontFamily("Consolas"),
+                    FontSize = cell.Digit != null ? 50 : 18,
+                    Content = CellContentHelper(cell)
+                };
+        }
+
+        private void DisplayCell(object sender, RoutedEventArgs e)
+        {
+            foreach (Button btn in FindVisualChildren<Button>(Matrix))
+            {
+                    btn.Content = CellContent(GetCell(btn));
+            }
+        }
+
+        private Cell GetCell(Button btn)
+        {
+            if (btn.Name.Length != 3)
+            {
+                throw new ArgumentException("Passed in Wrong button. Valid button in matrix");
+            }
+            var cellIdx = (btn.Name[1] - '0') * 9 + (btn.Name[2] - '0');
+            return sudoku.Cells[cellIdx];
+        }
+        #endregion
+
+        #region ColorSettings
         private void ResetGridColor()
         {
-            foreach (WrapPanel wp in Matrix.Children)
+            foreach (WrapPanel wp in FindVisualChildren<WrapPanel>(Matrix))
             {
                 int wpID = wp.Name[5] - '0';
                 if (wpID % 2 == 0)
@@ -109,274 +159,156 @@ namespace WpfSudoku
             }
         }
 
-        private void HighlightDigitColor(Elements ele)
+
+        private void ResetGridSelectColor()
         {
             foreach (WrapPanel wp in Matrix.Children)
             {
-                foreach (Button btn in wp.Children)
+                int wpID = wp.Name[5] - '0';
+                if (wpID % 2 == 0)
                 {
-                    var btnContent = btn.Content as string;
-                    if (btnContent != null)
+                    foreach (Button btn in wp.Children)
                     {
-                        if (btnContent.Contains((char)(ele+'1')))
+                        if (btn.Background == SystemColors.HighlightBrush)
                         {
-                            btn.Background = btnContent.Length ==1 ? Brushes.LightYellow: Brushes.Wheat;
+                            btn.Background = SystemColors.ControlBrush;
+                        }
+                    }
+                }
+                else
+                {
+                    foreach (Button btn in wp.Children)
+                    {
+                        if (btn.Background == SystemColors.HighlightBrush)
+                        {
+                            btn.Background = SystemColors.ControlLightBrush;
                         }
                     }
                 }
             }
         }
 
+        private void ResetHighlightDigit()
+        {
+            foreach (WrapPanel wp in FindVisualChildren<WrapPanel>(Matrix))
+            {
+                int wpID = wp.Name[5] - '0';
+                if (wpID % 2 == 0)
+                {
+                    foreach (Button btn in wp.Children)
+                    {
+                        if (btn.Background != SystemColors.HighlightBrush)
+                        {
+                            btn.Background = SystemColors.ControlBrush;
+                        }
+                    }
+                }
+                else
+                {
+                    foreach (Button btn in wp.Children)
+                    {
+                        if (btn.Background != SystemColors.HighlightBrush)
+                        {
+                            btn.Background = SystemColors.ControlLightBrush;
+                        }
+                    }
 
+                    foreach (Button btn in FindVisualChildren<Button>(DigitPanel))
+                    {
+
+                        btn.Background = SystemColors.InfoBrush;
+                    }
+                }
+            }
+        }
+
+        private void HighlightDigitColor(Elements ele)
+        {
+            foreach (Button btn in FindVisualChildren<Button>(Matrix))
+            {
+                if (btn.Background != SystemColors.HighlightBrush)
+                {
+                    var cell = GetCell(btn);
+                    if (cell.Digit != null)
+                    {
+                        if (cell.Digit == ele)
+                        {
+                            btn.Background = Brushes.Peru;
+                        }
+                    }
+                    else
+                    {
+                        if (cell.Candidates.Contains(ele))
+                        {
+                            btn.Background = Brushes.Wheat;
+                        }
+                    }
+                }
+            }
+        }
+
+        private void HighlightDigitPanelColor(Elements ele)
+        {
+            foreach (Button btn in FindVisualChildren<Button>(DigitPanel))
+            {
+                if (btn.Name[6] - '1' == (int)ele)
+                {
+                    btn.Background = Brushes.Peru;
+                }
+            }
+        }
+        #endregion
+
+        #region LogicClickEvent
         private void Btn_GenerateSudoku_Click(object sender, RoutedEventArgs e)
         {
             sudoku.GenerateSudoku();
-            DisplayCells(sudoku);
             ResetGridColor();
         }
 
         private void Btn_LabelAllMarks_Click(object sender, RoutedEventArgs e)
         {
             sudoku.LabelAllCanditates();
-            DisplayCells(sudoku);
-            DisplayMarks(sudoku);
         }
+
+        #endregion
 
         #region DigitClickEvents
 
-        private void Digit_1_Click(object sender, RoutedEventArgs e)
+        private void DigitButton_Click(object sender, RoutedEventArgs e)
         {
+            var btn = (Button)e.Source;
+            var selectedElem = (Elements)(btn.Name[6] - '1');
+
             MarksToBeWrite = null;
-            ResetGridColor();
-            HighlightDigitColor(Elements.One);
+
             if (CellToBeWrite != null)
             {
-                if (CellToBeWrite.Digit != Elements.One)
+                if (CellToBeWrite.Digit != selectedElem)
                 {
-                    CellToBeWrite.Digit = Elements.One;
+                    CellToBeWrite.Digit = selectedElem;
                 }
                 else
                 {
                     CellToBeWrite.Digit = null;
                 }
             }
-            else if (DigitToBeWrite != Elements.One)
-            {
-                DigitToBeWrite = Elements.One;
-            }
             else
             {
-                DigitToBeWrite = null;
+                ResetHighlightDigit();
+                if (DigitToBeWrite != selectedElem)
+                {
+                    DigitToBeWrite = selectedElem;
+                    HighlightDigitColor(selectedElem);
+                    HighlightDigitPanelColor(selectedElem);
+                }
+                else
+                {
+                    DigitToBeWrite = null;
+                }
             }
         }
 
-        private void Digit_2_Click(object sender, RoutedEventArgs e)
-        {
-            MarksToBeWrite = null;
-            ResetGridColor();
-            HighlightDigitColor(Elements.Two);
-            if (CellToBeWrite != null)
-            {
-                if (CellToBeWrite.Digit != Elements.Two)
-                {
-                    CellToBeWrite.Digit = Elements.Two;
-                }
-                else
-                {
-                    CellToBeWrite.Digit = null;
-                }
-            }
-            else if (DigitToBeWrite != Elements.Two)
-            {
-                DigitToBeWrite = Elements.Two;
-            }
-            else
-            {
-                DigitToBeWrite = null;
-            }
-        }
-
-        private void Digit_3_Click(object sender, RoutedEventArgs e)
-        {
-            MarksToBeWrite = null;
-            ResetGridColor();
-            HighlightDigitColor(Elements.Three);
-            if (CellToBeWrite != null)
-            {
-                if (CellToBeWrite.Digit != Elements.Three)
-                {
-                    CellToBeWrite.Digit = Elements.Three;
-                }
-                else
-                {
-                    CellToBeWrite.Digit = null;
-                }
-            }
-            else if (DigitToBeWrite != Elements.Three)
-            {
-                DigitToBeWrite = Elements.Three;
-            }
-            else
-            {
-                DigitToBeWrite = null;
-            }
-        }
-
-        private void Digit_4_Click(object sender, RoutedEventArgs e)
-        {
-            MarksToBeWrite = null;
-            ResetGridColor();
-            HighlightDigitColor(Elements.Four);
-            if (CellToBeWrite != null)
-            {
-                if (CellToBeWrite.Digit != Elements.Four)
-                {
-                    CellToBeWrite.Digit = Elements.Four;
-                }
-                else
-                {
-                    CellToBeWrite.Digit = null;
-                }
-            }
-            else if (DigitToBeWrite != Elements.Four)
-            {
-                DigitToBeWrite = Elements.Four;
-            }
-            else
-            {
-                DigitToBeWrite = null;
-            }
-        }
-
-        private void Digit_5_Click(object sender, RoutedEventArgs e)
-        {
-            MarksToBeWrite = null;
-            ResetGridColor();
-            HighlightDigitColor(Elements.Five);
-            if (CellToBeWrite != null)
-            {
-                if (CellToBeWrite.Digit != Elements.Five)
-                {
-                    CellToBeWrite.Digit = Elements.Five;
-                }
-                else
-                {
-                    CellToBeWrite.Digit = null;
-                }
-            }
-            else if (DigitToBeWrite != Elements.Five)
-            {
-                DigitToBeWrite = Elements.Five;
-            }
-            else
-            {
-                DigitToBeWrite = null;
-            }
-        }
-
-        private void Digit_6_Click(object sender, RoutedEventArgs e)
-        {
-            MarksToBeWrite = null;
-            ResetGridColor();
-            HighlightDigitColor(Elements.Six);
-            if (CellToBeWrite != null)
-            {
-                if (CellToBeWrite.Digit != Elements.Six)
-                {
-                    CellToBeWrite.Digit = Elements.Six;
-                }
-                else
-                {
-                    CellToBeWrite.Digit = null;
-                }
-            }
-            else if (DigitToBeWrite != Elements.Six)
-            {
-                DigitToBeWrite = Elements.Six;
-            }
-            else
-            {
-                DigitToBeWrite = null;
-            }
-        }
-
-        private void Digit_7_Click(object sender, RoutedEventArgs e)
-        {
-            MarksToBeWrite = null;
-            ResetGridColor();
-            HighlightDigitColor(Elements.Seven);
-            if (CellToBeWrite != null)
-            {
-                if (CellToBeWrite.Digit != Elements.Seven)
-                {
-                    CellToBeWrite.Digit = Elements.Seven;
-                }
-                else
-                {
-                    CellToBeWrite.Digit = null;
-                }
-            }
-            else if (DigitToBeWrite != Elements.Seven)
-            {
-                DigitToBeWrite = Elements.Seven;
-            }
-            else
-            {
-                DigitToBeWrite = null;
-            }
-        }
-
-        private void Digit_8_Click(object sender, RoutedEventArgs e)
-        {
-            MarksToBeWrite = null;
-            ResetGridColor();
-            HighlightDigitColor(Elements.Eight);
-            if (CellToBeWrite != null)
-            {
-                if (CellToBeWrite.Digit != Elements.Eight)
-                {
-                    CellToBeWrite.Digit = Elements.Eight;
-                }
-                else
-                {
-                    CellToBeWrite.Digit = null;
-                }
-            }
-            else if (DigitToBeWrite != Elements.Eight)
-            {
-                DigitToBeWrite = Elements.Eight;
-            }
-            else
-            {
-                DigitToBeWrite = null;
-            }
-        }
-
-        private void Digit_9_Click(object sender, RoutedEventArgs e)
-        {
-            MarksToBeWrite = null;
-            ResetGridColor();
-            HighlightDigitColor(Elements.Nine);
-            if (CellToBeWrite != null)
-            {
-                if (CellToBeWrite.Digit != Elements.Nine)
-                {
-                    CellToBeWrite.Digit = Elements.Nine;
-                }
-                else
-                {
-                    CellToBeWrite.Digit = null;
-                }
-            }
-            else if (DigitToBeWrite != Elements.Nine)
-            {
-                DigitToBeWrite = Elements.Nine;
-            }
-            else
-            {
-                DigitToBeWrite = null;
-            }
-        }
 
         #endregion
 
@@ -602,1382 +534,61 @@ namespace WpfSudoku
 
         #region CellClickEvents
 
-        private void c00_Click(object sender, RoutedEventArgs e)
+        private void CellButton_Click(object sender, RoutedEventArgs e)
         {
-            if (CellToBeWrite == sudoku.Cells[0])
+            var btn = (Button)e.Source;
+
+            if (CellToBeWrite == GetCell(btn))
             {
                 CellToBeWrite = null;
                 ResetGridColor();
+                ResetHighlightDigit();
             }
             else
             {
-                CellToBeWrite = sudoku.Cells[0];
-                ResetGridColor();
-                c00.Background = SystemColors.HighlightBrush;
+                ResetGridSelectColor();
+                var cell = GetCell(btn);
                 if (DigitToBeWrite != null)
                 {
-                    if (CellToBeWrite.Digit == DigitToBeWrite)
+                    if (cell.Digit == DigitToBeWrite)
                     {
-                        CellToBeWrite.Digit = null;
+                        cell.Digit = null;
                     }
-                    CellToBeWrite.Digit = DigitToBeWrite;
+                    else
+                    {
+                        cell.Digit = DigitToBeWrite;
+                    }
+                    HighlightDigitColor(DigitToBeWrite.Value);
                 }
                 else if (MarksToBeWrite != null)
                 {
-                    if (CellToBeWrite.Digit == null)
+                    if (cell.Digit == null)
                     {
-                        if (CellToBeWrite.Candidates.Contains(MarksToBeWrite.Value))
+                        if (cell.Candidates.Contains(MarksToBeWrite.Value))
                         {
-                            CellToBeWrite.Candidates.Remove(MarksToBeWrite.Value);
+                            cell.Candidates.Remove(MarksToBeWrite.Value);
                         }
-                        CellToBeWrite.Candidates.Add(MarksToBeWrite.Value);
+                        else
+                        {
+                            cell.Candidates.Add(MarksToBeWrite.Value);
+                        }
                     }
                 }
                 else
                 {
-                    if (CellToBeWrite.Digit != null)
+                    btn.Background = SystemColors.HighlightBrush;
+                    CellToBeWrite = cell;
+                    if (cell.Digit != null)
                     {
-                        HighlightDigitColor(CellToBeWrite.Digit.Value);
+                        ResetHighlightDigit();
+                        HighlightDigitColor(cell.Digit.Value);
                     }
                 }
+
+
             }
         }
 
-        private void c01_Click(object sender, RoutedEventArgs e)
-        {
-            if (CellToBeWrite == sudoku.Cells[1])
-            {
-                CellToBeWrite = null;
-                ResetGridColor();
-            }
-            else
-            {
-                CellToBeWrite = sudoku.Cells[1];
-                ResetGridColor();
-                c01.Background = SystemColors.HighlightBrush;
-                if (DigitToBeWrite != null)
-                {
-                    if (CellToBeWrite.Digit == DigitToBeWrite)
-                    {
-                        CellToBeWrite.Digit = null;
-                    }
-                    CellToBeWrite.Digit = DigitToBeWrite;
-                }
-                else if (MarksToBeWrite != null)
-                {
-                    if (CellToBeWrite.Digit == null)
-                    {
-                        if (CellToBeWrite.Candidates.Contains(MarksToBeWrite.Value))
-                        {
-                            CellToBeWrite.Candidates.Remove(MarksToBeWrite.Value);
-                        }
-                        CellToBeWrite.Candidates.Add(MarksToBeWrite.Value);
-                    }
-                }
-                else
-                {
-                    if (CellToBeWrite.Digit != null)
-                    {
-                        HighlightDigitColor(CellToBeWrite.Digit.Value);
-                    }
-                }
-            }
-        }
-
-        private void c02_Click(object sender, RoutedEventArgs e)
-        {
-            if (CellToBeWrite == sudoku.Cells[2])
-            {
-                CellToBeWrite = null;
-                ResetGridColor();
-            }
-            else
-            {
-                CellToBeWrite = sudoku.Cells[2];
-                ResetGridColor();
-                c02.Background = SystemColors.HighlightBrush;
-                if (DigitToBeWrite != null)
-                {
-                    if (CellToBeWrite.Digit == DigitToBeWrite)
-                    {
-                        CellToBeWrite.Digit = null;
-                    }
-                    CellToBeWrite.Digit = DigitToBeWrite;
-                }
-                else if (MarksToBeWrite != null)
-                {
-                    if (CellToBeWrite.Digit == null)
-                    {
-                        if (CellToBeWrite.Candidates.Contains(MarksToBeWrite.Value))
-                        {
-                            CellToBeWrite.Candidates.Remove(MarksToBeWrite.Value);
-                        }
-                        CellToBeWrite.Candidates.Add(MarksToBeWrite.Value);
-                    }
-                }
-                else
-                {
-                    if (CellToBeWrite.Digit != null)
-                    {
-                        HighlightDigitColor(CellToBeWrite.Digit.Value);
-                    }
-                }
-            }
-        }
-
-        private void c03_Click(object sender, RoutedEventArgs e)
-        {
-            if (CellToBeWrite == sudoku.Cells[3])
-            {
-                CellToBeWrite = null;
-                ResetGridColor();
-            }
-            else
-            {
-                CellToBeWrite = sudoku.Cells[3];
-                ResetGridColor();
-                c03.Background = SystemColors.HighlightBrush;
-                if (DigitToBeWrite != null)
-                {
-                    if (CellToBeWrite.Digit == DigitToBeWrite)
-                    {
-                        CellToBeWrite.Digit = null;
-                    }
-                    CellToBeWrite.Digit = DigitToBeWrite;
-                }
-                else if (MarksToBeWrite != null)
-                {
-                    if (CellToBeWrite.Digit == null)
-                    {
-                        if (CellToBeWrite.Candidates.Contains(MarksToBeWrite.Value))
-                        {
-                            CellToBeWrite.Candidates.Remove(MarksToBeWrite.Value);
-                        }
-                        CellToBeWrite.Candidates.Add(MarksToBeWrite.Value);
-                    }
-                }
-                else
-                {
-                    if (CellToBeWrite.Digit != null)
-                    {
-                        HighlightDigitColor(CellToBeWrite.Digit.Value);
-                    }
-                }
-            }
-        }
-
-        private void c04_Click(object sender, RoutedEventArgs e)
-        {
-            if (CellToBeWrite == sudoku.Cells[4])
-            {
-                CellToBeWrite = null;
-                ResetGridColor();
-            }
-            else
-            {
-                CellToBeWrite = sudoku.Cells[4];
-                ResetGridColor();
-                c04.Background = SystemColors.HighlightBrush;
-                if (DigitToBeWrite != null)
-                {
-                    if (CellToBeWrite.Digit == DigitToBeWrite)
-                    {
-                        CellToBeWrite.Digit = null;
-                    }
-                    CellToBeWrite.Digit = DigitToBeWrite;
-                }
-                else if (MarksToBeWrite != null)
-                {
-                    if (CellToBeWrite.Digit == null)
-                    {
-                        if (CellToBeWrite.Candidates.Contains(MarksToBeWrite.Value))
-                        {
-                            CellToBeWrite.Candidates.Remove(MarksToBeWrite.Value);
-                        }
-                        CellToBeWrite.Candidates.Add(MarksToBeWrite.Value);
-                    }
-                }
-                else
-                {
-                    if (CellToBeWrite.Digit != null)
-                    {
-                        HighlightDigitColor(CellToBeWrite.Digit.Value);
-                    }
-                }
-            }
-        }
-
-        private void c05_Click(object sender, RoutedEventArgs e)
-        {
-            if (CellToBeWrite == sudoku.Cells[5])
-            {
-                CellToBeWrite = null;
-                ResetGridColor();
-            }
-            else
-            {
-                CellToBeWrite = sudoku.Cells[5];
-                ResetGridColor();
-                c05.Background = SystemColors.HighlightBrush;
-                if (DigitToBeWrite != null)
-                {
-                    if (CellToBeWrite.Digit == DigitToBeWrite)
-                    {
-                        CellToBeWrite.Digit = null;
-                    }
-                    CellToBeWrite.Digit = DigitToBeWrite;
-                }
-                else if (MarksToBeWrite != null)
-                {
-                    if (CellToBeWrite.Digit == null)
-                    {
-                        if (CellToBeWrite.Candidates.Contains(MarksToBeWrite.Value))
-                        {
-                            CellToBeWrite.Candidates.Remove(MarksToBeWrite.Value);
-                        }
-                        CellToBeWrite.Candidates.Add(MarksToBeWrite.Value);
-                    }
-                }
-                else
-                {
-                    if (CellToBeWrite.Digit != null)
-                    {
-                        HighlightDigitColor(CellToBeWrite.Digit.Value);
-                    }
-                }
-            }
-        }
-
-        private void c06_Click(object sender, RoutedEventArgs e)
-        {
-            if (CellToBeWrite == sudoku.Cells[6])
-            {
-                CellToBeWrite = null;
-                ResetGridColor();
-            }
-            else
-            {
-                CellToBeWrite = sudoku.Cells[6];
-                ResetGridColor();
-                c06.Background = SystemColors.HighlightBrush;
-                if (DigitToBeWrite != null)
-                {
-                    if (CellToBeWrite.Digit == DigitToBeWrite)
-                    {
-                        CellToBeWrite.Digit = null;
-                    }
-                    CellToBeWrite.Digit = DigitToBeWrite;
-                }
-                else if (MarksToBeWrite != null)
-                {
-                    if (CellToBeWrite.Digit == null)
-                    {
-                        if (CellToBeWrite.Candidates.Contains(MarksToBeWrite.Value))
-                        {
-                            CellToBeWrite.Candidates.Remove(MarksToBeWrite.Value);
-                        }
-                        CellToBeWrite.Candidates.Add(MarksToBeWrite.Value);
-                    }
-                }
-                else
-                {
-                    if (CellToBeWrite.Digit != null)
-                    {
-                        HighlightDigitColor(CellToBeWrite.Digit.Value);
-                    }
-                }
-            }
-        }
-
-        private void c07_Click(object sender, RoutedEventArgs e)
-        {
-            if (CellToBeWrite == sudoku.Cells[7])
-            {
-                CellToBeWrite = null;
-                ResetGridColor();
-            }
-            else
-            {
-                CellToBeWrite = sudoku.Cells[7];
-                ResetGridColor();
-                c07.Background = SystemColors.HighlightBrush;
-                if (DigitToBeWrite != null)
-                {
-                    if (CellToBeWrite.Digit == DigitToBeWrite)
-                    {
-                        CellToBeWrite.Digit = null;
-                    }
-                    CellToBeWrite.Digit = DigitToBeWrite;
-                }
-                else if (MarksToBeWrite != null)
-                {
-                    if (CellToBeWrite.Digit == null)
-                    {
-                        if (CellToBeWrite.Candidates.Contains(MarksToBeWrite.Value))
-                        {
-                            CellToBeWrite.Candidates.Remove(MarksToBeWrite.Value);
-                        }
-                        CellToBeWrite.Candidates.Add(MarksToBeWrite.Value);
-                    }
-                }
-                else
-                {
-                    if (CellToBeWrite.Digit != null)
-                    {
-                        HighlightDigitColor(CellToBeWrite.Digit.Value);
-                    }
-                }
-            }
-        }
-
-        private void c08_Click(object sender, RoutedEventArgs e)
-        {
-            if (CellToBeWrite == sudoku.Cells[8])
-            {
-                CellToBeWrite = null;
-                ResetGridColor();
-            }
-            else
-            {
-                CellToBeWrite = sudoku.Cells[8];
-                ResetGridColor();
-                c08.Background = SystemColors.HighlightBrush;
-                if (DigitToBeWrite != null)
-                {
-                    if (CellToBeWrite.Digit == DigitToBeWrite)
-                    {
-                        CellToBeWrite.Digit = null;
-                    }
-                    CellToBeWrite.Digit = DigitToBeWrite;
-                }
-                else if (MarksToBeWrite != null)
-                {
-                    if (CellToBeWrite.Digit == null)
-                    {
-                        if (CellToBeWrite.Candidates.Contains(MarksToBeWrite.Value))
-                        {
-                            CellToBeWrite.Candidates.Remove(MarksToBeWrite.Value);
-                        }
-                        CellToBeWrite.Candidates.Add(MarksToBeWrite.Value);
-                    }
-                }
-                else
-                {
-                    if (CellToBeWrite.Digit != null)
-                    {
-                        HighlightDigitColor(CellToBeWrite.Digit.Value);
-                    }
-                }
-            }
-        }
-
-        private void c10_Click(object sender, RoutedEventArgs e)
-        {
-            if (CellToBeWrite == sudoku.Cells[9])
-            {
-                CellToBeWrite = null;
-                ResetGridColor();
-            }
-            else
-            {
-                CellToBeWrite = sudoku.Cells[9];
-                ResetGridColor();
-                c10.Background = SystemColors.HighlightBrush;
-                if (DigitToBeWrite != null)
-                {
-                    if (CellToBeWrite.Digit == DigitToBeWrite)
-                    {
-                        CellToBeWrite.Digit = null;
-                    }
-                    CellToBeWrite.Digit = DigitToBeWrite;
-                }
-                else if (MarksToBeWrite != null)
-                {
-                    if (CellToBeWrite.Digit == null)
-                    {
-                        if (CellToBeWrite.Candidates.Contains(MarksToBeWrite.Value))
-                        {
-                            CellToBeWrite.Candidates.Remove(MarksToBeWrite.Value);
-                        }
-                        CellToBeWrite.Candidates.Add(MarksToBeWrite.Value);
-                    }
-                }
-                else
-                {
-                    if (CellToBeWrite.Digit != null)
-                    {
-                        HighlightDigitColor(CellToBeWrite.Digit.Value);
-                    }
-                }
-            }
-        }
-
-        private void c11_Click(object sender, RoutedEventArgs e)
-        {
-            if (CellToBeWrite == sudoku.Cells[10])
-            {
-                CellToBeWrite = null;
-                ResetGridColor();
-            }
-            else
-            {
-                CellToBeWrite = sudoku.Cells[10];
-                ResetGridColor();
-                c11.Background = SystemColors.HighlightBrush;
-                if (DigitToBeWrite != null)
-                {
-                    if (CellToBeWrite.Digit == DigitToBeWrite)
-                    {
-                        CellToBeWrite.Digit = null;
-                    }
-                    CellToBeWrite.Digit = DigitToBeWrite;
-                }
-                else if (MarksToBeWrite != null)
-                {
-                    if (CellToBeWrite.Digit == null)
-                    {
-                        if (CellToBeWrite.Candidates.Contains(MarksToBeWrite.Value))
-                        {
-                            CellToBeWrite.Candidates.Remove(MarksToBeWrite.Value);
-                        }
-                        CellToBeWrite.Candidates.Add(MarksToBeWrite.Value);
-                    }
-                }
-                else
-                {
-                    if (CellToBeWrite.Digit != null)
-                    {
-                        HighlightDigitColor(CellToBeWrite.Digit.Value);
-                    }
-                }
-            }
-        }
-
-        private void c12_Click(object sender, RoutedEventArgs e)
-        {
-            if (CellToBeWrite == sudoku.Cells[11])
-            {
-                CellToBeWrite = null;
-                ResetGridColor();
-            }
-            else
-            {
-                CellToBeWrite = sudoku.Cells[11];
-                ResetGridColor();
-                c12.Background = SystemColors.HighlightBrush;
-                if (DigitToBeWrite != null)
-                {
-                    if (CellToBeWrite.Digit == DigitToBeWrite)
-                    {
-                        CellToBeWrite.Digit = null;
-                    }
-                    CellToBeWrite.Digit = DigitToBeWrite;
-                }
-                else if (MarksToBeWrite != null)
-                {
-                    if (CellToBeWrite.Digit == null)
-                    {
-                        if (CellToBeWrite.Candidates.Contains(MarksToBeWrite.Value))
-                        {
-                            CellToBeWrite.Candidates.Remove(MarksToBeWrite.Value);
-                        }
-                        CellToBeWrite.Candidates.Add(MarksToBeWrite.Value);
-                    }
-                }
-                else
-                {
-                    if (CellToBeWrite.Digit != null)
-                    {
-                        HighlightDigitColor(CellToBeWrite.Digit.Value);
-                    }
-                }
-            }
-        }
-
-        private void c13_Click(object sender, RoutedEventArgs e)
-        {
-            if (CellToBeWrite == sudoku.Cells[12])
-            {
-                CellToBeWrite = null;
-                ResetGridColor();
-            }
-            else
-            {
-                CellToBeWrite = sudoku.Cells[12];
-                ResetGridColor();
-                c13.Background = SystemColors.HighlightBrush;
-                if (DigitToBeWrite != null)
-                {
-                    if (CellToBeWrite.Digit == DigitToBeWrite)
-                    {
-                        CellToBeWrite.Digit = null;
-                    }
-                    CellToBeWrite.Digit = DigitToBeWrite;
-                }
-                else if (MarksToBeWrite != null)
-                {
-                    if (CellToBeWrite.Digit == null)
-                    {
-                        if (CellToBeWrite.Candidates.Contains(MarksToBeWrite.Value))
-                        {
-                            CellToBeWrite.Candidates.Remove(MarksToBeWrite.Value);
-                        }
-                        CellToBeWrite.Candidates.Add(MarksToBeWrite.Value);
-                    }
-                }
-                else
-                {
-                    if (CellToBeWrite.Digit != null)
-                    {
-                        HighlightDigitColor(CellToBeWrite.Digit.Value);
-                    }
-                }
-            }
-        }
-
-        private void c14_Click(object sender, RoutedEventArgs e)
-        {
-            if (CellToBeWrite == sudoku.Cells[13])
-            {
-                CellToBeWrite = null;
-                ResetGridColor();
-            }
-            else
-            {
-                CellToBeWrite = sudoku.Cells[13];
-                ResetGridColor();
-                c14.Background = SystemColors.HighlightBrush;
-                if (DigitToBeWrite != null)
-                {
-                    if (CellToBeWrite.Digit == DigitToBeWrite)
-                    {
-                        CellToBeWrite.Digit = null;
-                    }
-                    CellToBeWrite.Digit = DigitToBeWrite;
-                }
-                else if (MarksToBeWrite != null)
-                {
-                    if (CellToBeWrite.Digit == null)
-                    {
-                        if (CellToBeWrite.Candidates.Contains(MarksToBeWrite.Value))
-                        {
-                            CellToBeWrite.Candidates.Remove(MarksToBeWrite.Value);
-                        }
-                        CellToBeWrite.Candidates.Add(MarksToBeWrite.Value);
-                    }
-                }
-                else
-                {
-                    if (CellToBeWrite.Digit != null)
-                    {
-                        HighlightDigitColor(CellToBeWrite.Digit.Value);
-                    }
-                }
-            }
-        }
-
-        private void c15_Click(object sender, RoutedEventArgs e)
-        {
-            if (CellToBeWrite == sudoku.Cells[14])
-            {
-                CellToBeWrite = null;
-                ResetGridColor();
-            }
-            else
-            {
-                CellToBeWrite = sudoku.Cells[14];
-                ResetGridColor();
-                c15.Background = SystemColors.HighlightBrush;
-                if (DigitToBeWrite != null)
-                {
-                    if (CellToBeWrite.Digit == DigitToBeWrite)
-                    {
-                        CellToBeWrite.Digit = null;
-                    }
-                    CellToBeWrite.Digit = DigitToBeWrite;
-                }
-                else if (MarksToBeWrite != null)
-                {
-                    if (CellToBeWrite.Digit == null)
-                    {
-                        if (CellToBeWrite.Candidates.Contains(MarksToBeWrite.Value))
-                        {
-                            CellToBeWrite.Candidates.Remove(MarksToBeWrite.Value);
-                        }
-                        CellToBeWrite.Candidates.Add(MarksToBeWrite.Value);
-                    }
-                }
-                else
-                {
-                    if (CellToBeWrite.Digit != null)
-                    {
-                        HighlightDigitColor(CellToBeWrite.Digit.Value);
-                    }
-                }
-            }
-        }
-
-        private void c16_Click(object sender, RoutedEventArgs e)
-        {
-            if (CellToBeWrite == sudoku.Cells[15])
-            {
-                CellToBeWrite = null;
-                ResetGridColor();
-            }
-            else
-            {
-                CellToBeWrite = sudoku.Cells[15];
-                ResetGridColor();
-                c16.Background = SystemColors.HighlightBrush;
-                if (DigitToBeWrite != null)
-                {
-                    if (CellToBeWrite.Digit == DigitToBeWrite)
-                    {
-                        CellToBeWrite.Digit = null;
-                    }
-                    CellToBeWrite.Digit = DigitToBeWrite;
-                }
-                else if (MarksToBeWrite != null)
-                {
-                    if (CellToBeWrite.Digit == null)
-                    {
-                        if (CellToBeWrite.Candidates.Contains(MarksToBeWrite.Value))
-                        {
-                            CellToBeWrite.Candidates.Remove(MarksToBeWrite.Value);
-                        }
-                        CellToBeWrite.Candidates.Add(MarksToBeWrite.Value);
-                    }
-                }
-                else
-                {
-                    if (CellToBeWrite.Digit != null)
-                    {
-                        HighlightDigitColor(CellToBeWrite.Digit.Value);
-                    }
-                }
-            }
-        }
-
-        private void c17_Click(object sender, RoutedEventArgs e)
-        {
-            if (CellToBeWrite == sudoku.Cells[16])
-            {
-                CellToBeWrite = null;
-                ResetGridColor();
-            }
-            else
-            {
-                CellToBeWrite = sudoku.Cells[16];
-                ResetGridColor();
-                c17.Background = SystemColors.HighlightBrush;
-                if (DigitToBeWrite != null)
-                {
-                    if (CellToBeWrite.Digit == DigitToBeWrite)
-                    {
-                        CellToBeWrite.Digit = null;
-                    }
-                    CellToBeWrite.Digit = DigitToBeWrite;
-                }
-                else if (MarksToBeWrite != null)
-                {
-                    if (CellToBeWrite.Digit == null)
-                    {
-                        if (CellToBeWrite.Candidates.Contains(MarksToBeWrite.Value))
-                        {
-                            CellToBeWrite.Candidates.Remove(MarksToBeWrite.Value);
-                        }
-                        CellToBeWrite.Candidates.Add(MarksToBeWrite.Value);
-                    }
-                }
-                else
-                {
-                    if (CellToBeWrite.Digit != null)
-                    {
-                        HighlightDigitColor(CellToBeWrite.Digit.Value);
-                    }
-                }
-            }
-        }
-
-        private void c18_Click(object sender, RoutedEventArgs e)
-        {
-            if (CellToBeWrite == sudoku.Cells[17])
-            {
-                CellToBeWrite = null;
-                ResetGridColor();
-            }
-            else
-            {
-                CellToBeWrite = sudoku.Cells[17];
-                ResetGridColor();
-                c18.Background = SystemColors.HighlightBrush;
-                if (DigitToBeWrite != null)
-                {
-                    if (CellToBeWrite.Digit == DigitToBeWrite)
-                    {
-                        CellToBeWrite.Digit = null;
-                    }
-                    CellToBeWrite.Digit = DigitToBeWrite;
-                }
-                else if (MarksToBeWrite != null)
-                {
-                    if (CellToBeWrite.Digit == null)
-                    {
-                        if (CellToBeWrite.Candidates.Contains(MarksToBeWrite.Value))
-                        {
-                            CellToBeWrite.Candidates.Remove(MarksToBeWrite.Value);
-                        }
-                        CellToBeWrite.Candidates.Add(MarksToBeWrite.Value);
-                    }
-                }
-                else
-                {
-                    if (CellToBeWrite.Digit != null)
-                    {
-                        HighlightDigitColor(CellToBeWrite.Digit.Value);
-                    }
-                }
-            }
-        }
-
-        private void c20_Click(object sender, RoutedEventArgs e)
-        {
-            if (CellToBeWrite == sudoku.Cells[18])
-            {
-                CellToBeWrite = null;
-                ResetGridColor();
-            }
-            else
-            {
-                CellToBeWrite = sudoku.Cells[18];
-                ResetGridColor();
-                c20.Background = SystemColors.HighlightBrush;
-                if (DigitToBeWrite != null)
-                {
-                    if (CellToBeWrite.Digit == DigitToBeWrite)
-                    {
-                        CellToBeWrite.Digit = null;
-                    }
-                    CellToBeWrite.Digit = DigitToBeWrite;
-                }
-                else if (MarksToBeWrite != null)
-                {
-                    if (CellToBeWrite.Digit == null)
-                    {
-                        if (CellToBeWrite.Candidates.Contains(MarksToBeWrite.Value))
-                        {
-                            CellToBeWrite.Candidates.Remove(MarksToBeWrite.Value);
-                        }
-                        CellToBeWrite.Candidates.Add(MarksToBeWrite.Value);
-                    }
-                }
-                else
-                {
-                    if (CellToBeWrite.Digit != null)
-                    {
-                        HighlightDigitColor(CellToBeWrite.Digit.Value);
-                    }
-                }
-            }
-        }
-
-        private void c21_Click(object sender, RoutedEventArgs e)
-        {
-            if (CellToBeWrite == sudoku.Cells[19])
-            {
-                CellToBeWrite = null;
-                ResetGridColor();
-            }
-            else
-            {
-                CellToBeWrite = sudoku.Cells[19];
-                ResetGridColor();
-                c21.Background = SystemColors.HighlightBrush;
-                if (DigitToBeWrite != null)
-                {
-                    if (CellToBeWrite.Digit == DigitToBeWrite)
-                    {
-                        CellToBeWrite.Digit = null;
-                    }
-                    CellToBeWrite.Digit = DigitToBeWrite;
-                }
-                else if (MarksToBeWrite != null)
-                {
-                    if (CellToBeWrite.Digit == null)
-                    {
-                        if (CellToBeWrite.Candidates.Contains(MarksToBeWrite.Value))
-                        {
-                            CellToBeWrite.Candidates.Remove(MarksToBeWrite.Value);
-                        }
-                        CellToBeWrite.Candidates.Add(MarksToBeWrite.Value);
-                    }
-                }
-                else
-                {
-                    if (CellToBeWrite.Digit != null)
-                    {
-                        HighlightDigitColor(CellToBeWrite.Digit.Value);
-                    }
-                }
-            }
-        }
-
-        private void c22_Click(object sender, RoutedEventArgs e)
-        {
-            if (CellToBeWrite == sudoku.Cells[20])
-            {
-                CellToBeWrite = null;
-                ResetGridColor();
-            }
-            else
-            {
-                CellToBeWrite = sudoku.Cells[20];
-                ResetGridColor();
-                c22.Background = SystemColors.HighlightBrush;
-                if (DigitToBeWrite != null)
-                {
-                    if (CellToBeWrite.Digit == DigitToBeWrite)
-                    {
-                        CellToBeWrite.Digit = null;
-                    }
-                    CellToBeWrite.Digit = DigitToBeWrite;
-                }
-                else if (MarksToBeWrite != null)
-                {
-                    if (CellToBeWrite.Digit == null)
-                    {
-                        if (CellToBeWrite.Candidates.Contains(MarksToBeWrite.Value))
-                        {
-                            CellToBeWrite.Candidates.Remove(MarksToBeWrite.Value);
-                        }
-                        CellToBeWrite.Candidates.Add(MarksToBeWrite.Value);
-                    }
-                }
-                else
-                {
-                    if (CellToBeWrite.Digit != null)
-                    {
-                        HighlightDigitColor(CellToBeWrite.Digit.Value);
-                    }
-                }
-            }
-        }
-
-        private void c23_Click(object sender, RoutedEventArgs e)
-        {
-            if (CellToBeWrite == sudoku.Cells[21])
-            {
-                CellToBeWrite = null;
-                ResetGridColor();
-            }
-            else
-            {
-                CellToBeWrite = sudoku.Cells[21];
-                ResetGridColor();
-                c23.Background = SystemColors.HighlightBrush;
-                if (DigitToBeWrite != null)
-                {
-                    if (CellToBeWrite.Digit == DigitToBeWrite)
-                    {
-                        CellToBeWrite.Digit = null;
-                    }
-                    CellToBeWrite.Digit = DigitToBeWrite;
-                }
-                else if (MarksToBeWrite != null)
-                {
-                    if (CellToBeWrite.Digit == null)
-                    {
-                        if (CellToBeWrite.Candidates.Contains(MarksToBeWrite.Value))
-                        {
-                            CellToBeWrite.Candidates.Remove(MarksToBeWrite.Value);
-                        }
-                        CellToBeWrite.Candidates.Add(MarksToBeWrite.Value);
-                    }
-                }
-                else
-                {
-                    if (CellToBeWrite.Digit != null)
-                    {
-                        HighlightDigitColor(CellToBeWrite.Digit.Value);
-                    }
-                }
-            }
-        }
-
-        private void c24_Click(object sender, RoutedEventArgs e)
-        {
-            if (CellToBeWrite == sudoku.Cells[22])
-            {
-                CellToBeWrite = null;
-                ResetGridColor();
-            }
-            else
-            {
-                CellToBeWrite = sudoku.Cells[22];
-                ResetGridColor();
-                c24.Background = SystemColors.HighlightBrush;
-                if (DigitToBeWrite != null)
-                {
-                    if (CellToBeWrite.Digit == DigitToBeWrite)
-                    {
-                        CellToBeWrite.Digit = null;
-                    }
-                    CellToBeWrite.Digit = DigitToBeWrite;
-                }
-                else if (MarksToBeWrite != null)
-                {
-                    if (CellToBeWrite.Digit == null)
-                    {
-                        if (CellToBeWrite.Candidates.Contains(MarksToBeWrite.Value))
-                        {
-                            CellToBeWrite.Candidates.Remove(MarksToBeWrite.Value);
-                        }
-                        CellToBeWrite.Candidates.Add(MarksToBeWrite.Value);
-                    }
-                }
-                else
-                {
-                    if (CellToBeWrite.Digit != null)
-                    {
-                        HighlightDigitColor(CellToBeWrite.Digit.Value);
-                    }
-                }
-            }
-        }
-
-        private void c25_Click(object sender, RoutedEventArgs e)
-        {
-            if (CellToBeWrite == sudoku.Cells[23])
-            {
-                CellToBeWrite = null;
-                ResetGridColor();
-            }
-            else
-            {
-                CellToBeWrite = sudoku.Cells[23];
-                ResetGridColor();
-                c25.Background = SystemColors.HighlightBrush;
-                if (DigitToBeWrite != null)
-                {
-                    if (CellToBeWrite.Digit == DigitToBeWrite)
-                    {
-                        CellToBeWrite.Digit = null;
-                    }
-                    CellToBeWrite.Digit = DigitToBeWrite;
-                }
-                else if (MarksToBeWrite != null)
-                {
-                    if (CellToBeWrite.Digit == null)
-                    {
-                        if (CellToBeWrite.Candidates.Contains(MarksToBeWrite.Value))
-                        {
-                            CellToBeWrite.Candidates.Remove(MarksToBeWrite.Value);
-                        }
-                        CellToBeWrite.Candidates.Add(MarksToBeWrite.Value);
-                    }
-                }
-                else
-                {
-                    if (CellToBeWrite.Digit != null)
-                    {
-                        HighlightDigitColor(CellToBeWrite.Digit.Value);
-                    }
-                }
-            }
-        }
-
-        private void c26_Click(object sender, RoutedEventArgs e)
-        {
-            if (CellToBeWrite == sudoku.Cells[24])
-            {
-                CellToBeWrite = null;
-                ResetGridColor();
-            }
-            else
-            {
-                CellToBeWrite = sudoku.Cells[24];
-                ResetGridColor();
-                c26.Background = SystemColors.HighlightBrush;
-                if (DigitToBeWrite != null)
-                {
-                    if (CellToBeWrite.Digit == DigitToBeWrite)
-                    {
-                        CellToBeWrite.Digit = null;
-                    }
-                    CellToBeWrite.Digit = DigitToBeWrite;
-                }
-                else if (MarksToBeWrite != null)
-                {
-                    if (CellToBeWrite.Digit == null)
-                    {
-                        if (CellToBeWrite.Candidates.Contains(MarksToBeWrite.Value))
-                        {
-                            CellToBeWrite.Candidates.Remove(MarksToBeWrite.Value);
-                        }
-                        CellToBeWrite.Candidates.Add(MarksToBeWrite.Value);
-                    }
-                }
-                else
-                {
-                    if (CellToBeWrite.Digit != null)
-                    {
-                        HighlightDigitColor(CellToBeWrite.Digit.Value);
-                    }
-                }
-            }
-        }
-
-        private void c27_Click(object sender, RoutedEventArgs e)
-        {
-            if (CellToBeWrite == sudoku.Cells[25])
-            {
-                CellToBeWrite = null;
-                ResetGridColor();
-            }
-            else
-            {
-                CellToBeWrite = sudoku.Cells[25];
-                ResetGridColor();
-                c27.Background = SystemColors.HighlightBrush;
-                if (DigitToBeWrite != null)
-                {
-                    if (CellToBeWrite.Digit == DigitToBeWrite)
-                    {
-                        CellToBeWrite.Digit = null;
-                    }
-                    CellToBeWrite.Digit = DigitToBeWrite;
-                }
-                else if (MarksToBeWrite != null)
-                {
-                    if (CellToBeWrite.Digit == null)
-                    {
-                        if (CellToBeWrite.Candidates.Contains(MarksToBeWrite.Value))
-                        {
-                            CellToBeWrite.Candidates.Remove(MarksToBeWrite.Value);
-                        }
-                        CellToBeWrite.Candidates.Add(MarksToBeWrite.Value);
-                    }
-                }
-                else
-                {
-                    if (CellToBeWrite.Digit != null)
-                    {
-                        HighlightDigitColor(CellToBeWrite.Digit.Value);
-                    }
-                }
-            }
-        }
-
-        private void c28_Click(object sender, RoutedEventArgs e)
-        {
-            if (CellToBeWrite == sudoku.Cells[26])
-            {
-                CellToBeWrite = null;
-                ResetGridColor();
-            }
-            else
-            {
-                CellToBeWrite = sudoku.Cells[26];
-                ResetGridColor();
-                c28.Background = SystemColors.HighlightBrush;
-                if (DigitToBeWrite != null)
-                {
-                    if (CellToBeWrite.Digit == DigitToBeWrite)
-                    {
-                        CellToBeWrite.Digit = null;
-                    }
-                    CellToBeWrite.Digit = DigitToBeWrite;
-                }
-                else if (MarksToBeWrite != null)
-                {
-                    if (CellToBeWrite.Digit == null)
-                    {
-                        if (CellToBeWrite.Candidates.Contains(MarksToBeWrite.Value))
-                        {
-                            CellToBeWrite.Candidates.Remove(MarksToBeWrite.Value);
-                        }
-                        CellToBeWrite.Candidates.Add(MarksToBeWrite.Value);
-                    }
-                }
-                else
-                {
-                    if (CellToBeWrite.Digit != null)
-                    {
-                        HighlightDigitColor(CellToBeWrite.Digit.Value);
-                    }
-                }
-            }
-        }
-
-        private void c30_Click(object sender, RoutedEventArgs e)
-        {
-
-        }
-
-        private void c31_Click(object sender, RoutedEventArgs e)
-        {
-
-        }
-
-        private void c32_Click(object sender, RoutedEventArgs e)
-        {
-
-        }
-
-        private void c33_Click(object sender, RoutedEventArgs e)
-        {
-
-        }
-
-        private void c34_Click(object sender, RoutedEventArgs e)
-        {
-
-        }
-
-        private void c35_Click(object sender, RoutedEventArgs e)
-        {
-
-        }
-
-        private void c36_Click(object sender, RoutedEventArgs e)
-        {
-
-        }
-
-        private void c37_Click(object sender, RoutedEventArgs e)
-        {
-
-        }
-
-        private void c38_Click(object sender, RoutedEventArgs e)
-        {
-
-        }
-
-        private void c40_Click(object sender, RoutedEventArgs e)
-        {
-
-        }
-
-        private void c41_Click(object sender, RoutedEventArgs e)
-        {
-
-        }
-
-        private void c42_Click(object sender, RoutedEventArgs e)
-        {
-
-        }
-
-        private void c43_Click(object sender, RoutedEventArgs e)
-        {
-
-        }
-
-        private void c44_Click(object sender, RoutedEventArgs e)
-        {
-
-        }
-
-        private void c45_Click(object sender, RoutedEventArgs e)
-        {
-
-        }
-
-        private void c46_Click(object sender, RoutedEventArgs e)
-        {
-
-        }
-
-        private void c47_Click(object sender, RoutedEventArgs e)
-        {
-
-        }
-
-        private void c48_Click(object sender, RoutedEventArgs e)
-        {
-
-        }
-
-        private void c50_Click(object sender, RoutedEventArgs e)
-        {
-
-        }
-
-        private void c51_Click(object sender, RoutedEventArgs e)
-        {
-
-        }
-
-        private void c52_Click(object sender, RoutedEventArgs e)
-        {
-
-        }
-
-        private void c53_Click(object sender, RoutedEventArgs e)
-        {
-
-        }
-
-        private void c54_Click(object sender, RoutedEventArgs e)
-        {
-
-        }
-
-        private void c55_Click(object sender, RoutedEventArgs e)
-        {
-
-        }
-
-        private void c56_Click(object sender, RoutedEventArgs e)
-        {
-
-        }
-
-        private void c57_Click(object sender, RoutedEventArgs e)
-        {
-
-        }
-
-        private void c58_Click(object sender, RoutedEventArgs e)
-        {
-
-        }
-
-        private void c60_Click(object sender, RoutedEventArgs e)
-        {
-
-        }
-
-        private void c61_Click(object sender, RoutedEventArgs e)
-        {
-
-        }
-
-        private void c62_Click(object sender, RoutedEventArgs e)
-        {
-
-        }
-
-        private void c63_Click(object sender, RoutedEventArgs e)
-        {
-
-        }
-
-        private void c64_Click(object sender, RoutedEventArgs e)
-        {
-
-        }
-
-        private void c65_Click(object sender, RoutedEventArgs e)
-        {
-
-        }
-
-        private void c66_Click(object sender, RoutedEventArgs e)
-        {
-
-        }
-
-        private void c67_Click(object sender, RoutedEventArgs e)
-        {
-
-        }
-
-        private void c68_Click(object sender, RoutedEventArgs e)
-        {
-
-        }
-
-        private void c70_Click(object sender, RoutedEventArgs e)
-        {
-
-        }
-
-        private void c71_Click(object sender, RoutedEventArgs e)
-        {
-
-        }
-
-        private void c72_Click(object sender, RoutedEventArgs e)
-        {
-
-        }
-
-        private void c73_Click(object sender, RoutedEventArgs e)
-        {
-
-        }
-
-        private void c74_Click(object sender, RoutedEventArgs e)
-        {
-
-        }
-
-        private void c75_Click(object sender, RoutedEventArgs e)
-        {
-
-        }
-
-        private void c76_Click(object sender, RoutedEventArgs e)
-        {
-
-        }
-
-        private void c77_Click(object sender, RoutedEventArgs e)
-        {
-
-        }
-
-        private void c78_Click(object sender, RoutedEventArgs e)
-        {
-
-        }
-
-        private void c80_Click(object sender, RoutedEventArgs e)
-        {
-
-        }
-
-        private void c81_Click(object sender, RoutedEventArgs e)
-        {
-
-        }
-
-        private void c82_Click(object sender, RoutedEventArgs e)
-        {
-
-        }
-
-        private void c83_Click(object sender, RoutedEventArgs e)
-        {
-
-        }
-
-        private void c84_Click(object sender, RoutedEventArgs e)
-        {
-
-        }
-
-        private void c85_Click(object sender, RoutedEventArgs e)
-        {
-
-        }
-
-        private void c86_Click(object sender, RoutedEventArgs e)
-        {
-
-        }
-
-        private void c87_Click(object sender, RoutedEventArgs e)
-        {
-
-        }
-
-        private void c88_Click(object sender, RoutedEventArgs e)
-        {
-
-        }
 
         #endregion
     }

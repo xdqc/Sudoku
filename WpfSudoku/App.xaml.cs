@@ -5,6 +5,7 @@ using System.Data;
 using System.Linq;
 using System.Threading.Tasks;
 using System.Windows;
+using ConsoleSudoku;
 
 namespace WpfSudoku
 {
@@ -13,5 +14,12 @@ namespace WpfSudoku
     /// </summary>
     public partial class App : Application
     {
+        //protected override void OnStartup(StartupEventArgs e)
+        //{
+        //    base.OnStartup(e);
+
+        //    var window = new MainWindow() { DataContext = new SudokuViewModel(new Sudoku()) };
+        //    window.Show();
+        //}
     }
 }
