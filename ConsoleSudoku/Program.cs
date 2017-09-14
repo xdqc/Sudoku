@@ -28,7 +28,7 @@ namespace ConsoleSudoku
             var g1 = new Sudoku();
             Console.WriteLine();
             g1.PrintGrid();
-            g1.LabelAllCanditates();
+            g1.LabelAllCandidates();
 
             g1.SolveStage_1();
 

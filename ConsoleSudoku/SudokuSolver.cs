@@ -25,7 +25,8 @@ namespace ConsoleSudoku
             while (grid.NakedSingles.Count()>0 && !grid.IsSolved())
             {
                 grid.SolveNakedSingles();
-                grid.ConfirmNakedPairs();
+                
+                grid.ConfirmNakedPairs(grid.NakedPairs);
                 grid.ConfirmNakedTriples();
 
             }
@@ -51,7 +52,7 @@ namespace ConsoleSudoku
             }
         }
 
-        public static void LabelAllCanditates(this Grid grid)
+        public static void LabelAllCandidates(this Grid grid)
         {
             foreach (var cell in grid)
             {
@@ -59,7 +60,18 @@ namespace ConsoleSudoku
             }
         }
 
-        private static void ConfirmNakedSingle(this Sudoku grid)
+        public static void UnLabelAllCandidates(this Grid grid)
+        {
+            foreach (var cell in grid)
+            {
+                if (cell.Candidates != null)
+                {
+                    cell.Candidates.Clear();
+                }
+            }
+        }
+
+        public static void ConfirmNakedSingle(this Sudoku grid)
         {
             foreach (var cell in grid.NakedSingles)
             {
@@ -84,9 +96,11 @@ namespace ConsoleSudoku
             } while (hasSingleCandidate);
         }
 
-        public static void ConfirmNakedPairs(this Sudoku grid)
+
+
+        public static void ConfirmNakedPairs(this Sudoku grid, IEnumerable<Tuple<Elements, Elements, Cell, Cell, House>> nakedPairs)
         {
-            foreach (var np in grid.NakedPairs())
+            foreach (var np in nakedPairs)
             {
                 var house = np.Item5;
                 var cell1 = np.Item3;
@@ -96,7 +110,7 @@ namespace ConsoleSudoku
                 // candidates of the naked pair could have been eliminated by other naked pair in other house
 
                 house.Where(c => c.Digit == null)
-                     .Where(c => c != cell1 && c != cell2)
+                     .Where(c => !c.Equals(cell1) && !c.Equals(cell2))
                      .ToList()
                      .ForEach(c => c.Candidates.RemoveAll(e => e == elem1 || e == elem2));
 

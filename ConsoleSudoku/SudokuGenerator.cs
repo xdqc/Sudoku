@@ -12,11 +12,15 @@ namespace ConsoleSudoku
 
         static Random r = new Random();
 
-        public static void GenerateSudoku(this Grid grid)
+        public static void GenerateSudoku(this Grid grid, int numberOfEmptyCells)
         {
             grid.GenerateEmptyGrid();
+            grid.Columns = new House[9];
+            grid.Rows = new House[9];
+            grid.Blocks = new House[3, 3];
+            grid.Houses = new List<House>();
             grid.GenerateFullGrid();
-            grid.HideCells(NumberOfEmptyCells);
+            grid.HideCells(numberOfEmptyCells);
         }
 
         public static void GenerateEmptyGrid(this Grid grid)
@@ -46,6 +50,8 @@ namespace ConsoleSudoku
                     int test = 0;
                     do
                     {
+                        cell.Digit = null;
+                        cell.Candidates.Clear();
                         cell.Digit = (Elements)r.Next(9);
                         test++;
                         testRow++;

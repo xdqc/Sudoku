@@ -13,7 +13,6 @@ namespace ConsoleSudoku
         {
             grid = new HashSet<Cell>();
             this.GenerateEmptyGrid();
-            //this.GenerateFullGrid();
         }
 
         private HashSet<Cell> grid;
@@ -28,11 +27,19 @@ namespace ConsoleSudoku
         {
             get
             {
+                if (columns[0] != null)
+                {
+                    return columns;
+                }
                 for (int c = 0; c < 9; c++)
                 {
                     columns[c] = new Column(grid, c);
                 }
                 return columns;
+            }
+            set
+            {
+                columns = value;
             }
         }
 
@@ -40,11 +47,19 @@ namespace ConsoleSudoku
         {
             get
             {
+                if (rows[0] != null)
+                {
+                    return rows;
+                }
                 for (int r = 0; r < 9; r++)
                 {
                     rows[r] = new Row(grid, r);
                 }
                 return rows;
+            }
+            set
+            {
+                rows = value;
             }
         }
 
@@ -52,6 +67,10 @@ namespace ConsoleSudoku
         {
             get
             {
+                if (blocks[0,0] != null)
+                {
+                    return blocks;
+                }
                 for (int i = 0; i < 3; i++)
                 {
                     for (int j = 0; j < 3; j++)
@@ -61,9 +80,13 @@ namespace ConsoleSudoku
                 }
                 return blocks;
             }
+            set
+            {
+                blocks = value;
+            }
         }
 
-        public IEnumerable<House> Houses
+        public List<House> Houses
         {
             get
             {
@@ -84,6 +107,10 @@ namespace ConsoleSudoku
                     houses.Add(house);
                 }
                 return houses;
+            }
+            set
+            {
+                houses = value;
             }
         }
 
