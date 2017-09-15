@@ -22,14 +22,7 @@ namespace ConsoleSudoku
 
         public static void SolveStage_1(this Sudoku grid)
         {
-            while (grid.NakedSingles.Count()>0 && !grid.IsSolved())
-            {
-                grid.SolveNakedSingles();
-                
-                grid.ConfirmNakedPairs(grid.NakedPairs);
-                grid.ConfirmNakedTriples();
 
-            }
         }
 
         #region SoverHelper
@@ -71,6 +64,25 @@ namespace ConsoleSudoku
             }
         }
 
+        public static void EliminateCandidates(this Grid grid)
+        {
+            foreach (var cell in grid)
+            {
+                if (cell.Candidates != null)
+                {
+                    var neighbors = grid.FindNeighbors(cell).Select(c => c.Digit);
+                    // If all neigbbors don't contain such element, add it to canditate of the cell
+                    foreach (Elements ele in Enum.GetValues(typeof(Elements)))
+                    {
+                        if (neighbors.Contains(ele) && cell.Candidates.Contains(ele))
+                        {
+                            cell.Candidates.Remove(ele);
+                        }
+                    }
+                }
+            }
+        }
+
         public static void ConfirmNakedSingle(this Sudoku grid)
         {
             foreach (var cell in grid.NakedSingles)
@@ -96,8 +108,6 @@ namespace ConsoleSudoku
             } while (hasSingleCandidate);
         }
 
-
-
         public static void ConfirmNakedPairs(this Sudoku grid, IEnumerable<Tuple<Elements, Elements, Cell, Cell, House>> nakedPairs)
         {
             foreach (var np in nakedPairs)
@@ -108,18 +118,16 @@ namespace ConsoleSudoku
                 var elem1 = np.Item1;
                 var elem2 = np.Item2;
                 // candidates of the naked pair could have been eliminated by other naked pair in other house
-
                 house.Where(c => c.Digit == null)
                      .Where(c => !c.Equals(cell1) && !c.Equals(cell2))
                      .ToList()
                      .ForEach(c => c.Candidates.RemoveAll(e => e == elem1 || e == elem2));
-
             }
         }
 
-        public static void ConfirmNakedTriples(this Sudoku grid)
+        public static void ConfirmNakedTriples(this Sudoku grid, IEnumerable<Tuple<Elements, Elements, Elements, Cell, Cell, Cell, House>> nakedTriples)
         {
-            foreach (var nt in grid.NakedTriples())
+            foreach (var nt in nakedTriples)
             {
                 var house = nt.Item7;
                 var cell1 = nt.Item4;
@@ -132,7 +140,6 @@ namespace ConsoleSudoku
                      .Where(c => c != cell1 && c != cell2 && c != cell3)
                      .ToList()
                      .ForEach(c => c.Candidates.RemoveAll(e => e == elem1 || e == elem2 || e == elem3));
-
             }
         }
         #endregion

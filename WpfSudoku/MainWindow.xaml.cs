@@ -315,7 +315,7 @@ namespace WpfSudoku
 
                 if (AutoMark.IsChecked.Value)
                 {
-                    sudoku.LabelAllCandidates();
+                    sudoku.EliminateCandidates();
                 }
 
             }
@@ -389,7 +389,7 @@ namespace WpfSudoku
 
                     if (AutoMark.IsChecked.Value)
                     {
-                        sudoku.LabelAllCandidates();
+                        sudoku.EliminateCandidates();
                     }
                 }
                 else if (MarksToBeWrite != null)
@@ -477,7 +477,9 @@ namespace WpfSudoku
         #region SaveLoadEvent
         private void Btn_Save_Click(object sender, RoutedEventArgs e)
         {
-            sudoku.SaveGrid(@"E:\C#\Sudoku\");
+            string path = @"E:\C#\Sudoku\";
+            sudoku.SaveGrid(path);
+            MessageBox.Show("Saved at " + path);
         }
 
         private void Btn_Load_Click(object sender, RoutedEventArgs e)
@@ -558,7 +560,7 @@ namespace WpfSudoku
             }
         }
 
-        private void Btn_ConfirmNakedPair_Click_Selected(object sender, RoutedEventArgs e)
+        private void Btn_ConfirmNakedPair_Click(object sender, RoutedEventArgs e)
         {
             var nakedPairs = sudoku.NakedPairs;
             foreach (var nakedPair in nakedPairs)
@@ -579,14 +581,29 @@ namespace WpfSudoku
 
         private void Btn_ConfirmNakedTriple_Click(object sender, RoutedEventArgs e)
         {
-            sudoku.ConfirmNakedTriples();
+            var nakedTriples = sudoku.NakedTriples();
+            foreach (var nt in nakedTriples)
+            {
+                var cell1 = nt.Item4;
+                var cell2 = nt.Item5;
+                var cell3 = nt.Item6;
+                foreach (Button btn in FindVisualChildren<Button>(Matrix))
+                {
+                    var cell = GetCell(btn);
+                    if (cell == cell1 || cell == cell2 || cell == cell3)
+                    {
+                        btn.Background = Brushes.PaleGreen;
+                    }
+                }
+            }
+            sudoku.ConfirmNakedTriples(nakedTriples);
         }
 
 
 
+
+
         #endregion
-
-
 
     }
 }

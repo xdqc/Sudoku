@@ -206,8 +206,8 @@
             </WrapPanel>
             <StackPanel Margin="255,22,15,27" Grid.Row="0">
                 <ComboBox x:Name="Solvingstrategy" Text="E" Height="30">
-                    <Button x:Name="Btn_ConfirmNakedPair_Click" Content="Naked Pair" Click="Btn_ConfirmNakedPair_Click_Selected"/>
-                    <Button/>
+                    <Button x:Name="Btn_ConfirmNakedPair" Content="Naked Pair" Click="Btn_ConfirmNakedPair_Click"/>
+                    <Button x:Name="Btn_ConfirmNakedTriple" Content="Naked Triple" Click="Btn_ConfirmNakedTriple_Click" />
                     <Button/>
 
                 </ComboBox>
