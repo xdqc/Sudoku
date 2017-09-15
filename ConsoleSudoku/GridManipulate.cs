@@ -101,5 +101,27 @@ namespace ConsoleSudoku
             }
 
         }
+
+        public static void SaveGrid(this Grid grid, string path)
+        {
+            using (var saver = new System.IO.StreamWriter(path+@"\SavedGame.txt", true) )
+            {
+                saver.WriteLineAsync($"Time: {DateTime.Now}");
+                foreach (var cell in grid.Cells)
+                {
+                    if (cell.Digit == null)
+                    {
+                        saver.WriteAsync('.');
+                    }
+                    else
+                    {
+                        var digit = (char)((int)cell.Digit + '1');
+                        saver.WriteAsync(digit);
+                    }
+
+                }
+                saver.WriteLineAsync();
+            }
+        }
     }
 }

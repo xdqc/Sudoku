@@ -177,8 +177,8 @@
             </StackPanel>
             <StackPanel  HorizontalAlignment="Right" Margin="0,10,10,10" Grid.Row="2" Width="157">
                 <Button Content="Button" Margin="0 5" Height="40"/>
-                <Button Content="Button" Margin="0 5" Height="40"/>
-                <Button Content="Button" Margin="0 5" Height="40"/>
+                <Button x:Name="Btn_Load" Content="Load" Margin="0 5" Height="40" Click="Btn_Load_Click"/>
+                <Button x:Name="Btn_Save" Content="Save" Margin="0 5" Height="40" Click="Btn_Save_Click"/>
                 <Slider x:Name="EmptyCellsSlider" HorizontalAlignment="Left" Height="41" Margin="-128,10,0,0" Width="275" SmallChange="1" Maximum="80" LargeChange="10" Value="50" Cursor="ScrollWE"/>
 
             </StackPanel>
@@ -220,5 +220,28 @@
 
         </Grid>
 
+        <!-- It's important that this is in the end of the XAML as it needs to be on top of everything else! -->
+        <Grid x:Name="LoadInputGrid" Visibility="Collapsed">
+            <Grid Background="Black" Opacity="0.5"/>
+            <Border
+                MinWidth="250"
+                Background="AliceBlue" 
+                BorderBrush="Black" 
+                BorderThickness="1"
+                CornerRadius="5" 
+                HorizontalAlignment="Center" 
+                VerticalAlignment="Center">
+                <StackPanel>
+                    <TextBlock Margin="5" Text="Load Sudoku:" FontWeight="Bold" FontFamily="Cambria" />
+                    <TextBox x:Name="LoadInputTextBox" MinWidth="150" HorizontalAlignment="Center" VerticalAlignment="Center" FontFamily="Consolas" FontSize="18" />
+                    <StackPanel Orientation="Horizontal" HorizontalAlignment="Center">
+                        <Button x:Name="Btn_LoadSudoku" Margin="5" Content="  Load  " Background="{x:Null}" Click="Btn_LoadSudoku_Click" />
+                        <Button x:Name="Btn_CancelLoad" Margin="5" Content=" Cancel " Background="{x:Null}" Click="Btn_CancelLoad_Click"  />
+                    </StackPanel>
+                </StackPanel>
+            </Border>
+        </Grid>
     </Grid>
+
+
 </Window>

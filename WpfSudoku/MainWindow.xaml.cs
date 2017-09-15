@@ -473,7 +473,42 @@ namespace WpfSudoku
         }
         #endregion
 
-        #region LogicEvent
+
+        #region SaveLoadEvent
+        private void Btn_Save_Click(object sender, RoutedEventArgs e)
+        {
+            sudoku.SaveGrid(@"E:\C#\Sudoku\");
+        }
+
+        private void Btn_Load_Click(object sender, RoutedEventArgs e)
+        {
+            LoadInputGrid.Visibility = Visibility.Visible;
+        }
+
+        private void Btn_CancelLoad_Click(object sender, RoutedEventArgs e)
+        {
+            LoadInputGrid.Visibility = Visibility.Collapsed;
+            LoadInputTextBox.Text = string.Empty;
+        }
+
+        private void Btn_LoadSudoku_Click(object sender, RoutedEventArgs e)
+        {
+            var reg = new Regex(@"^[\d.]{81}$", RegexOptions.Singleline);
+            if (reg.IsMatch(LoadInputTextBox.Text))
+            {
+                sudoku = new Sudoku(LoadInputTextBox.Text);
+                LoadInputGrid.Visibility = Visibility.Collapsed;
+            }
+            else
+            {
+                MessageBox.Show("Invalid Sudoku Infomation.");
+                LoadInputTextBox.Text = string.Empty;
+            }
+        }
+
+        #endregion
+
+        #region SudokuLogicEvent
         private void Btn_GenerateSudoku_Click(object sender, RoutedEventArgs e)
         {
             sudoku.GenerateSudoku((int)EmptyCellsSlider.Value);
@@ -542,12 +577,16 @@ namespace WpfSudoku
             sudoku.ConfirmNakedPairs(nakedPairs);
         }
 
-
         private void Btn_ConfirmNakedTriple_Click(object sender, RoutedEventArgs e)
         {
             sudoku.ConfirmNakedTriples();
         }
+
+
+
         #endregion
+
+
 
     }
 }

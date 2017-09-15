@@ -13,6 +13,10 @@ namespace ConsoleSudoku
             //this.GenerateSudoku();
         }
 
+        public Sudoku(string cellInfo) : base(cellInfo)
+        {
+        }
+
         public IEnumerable<Cell> NakedSingles =>
             this.Where(c => c.Digit == null)
                 .Where(c => c.Candidates.Count == 1);

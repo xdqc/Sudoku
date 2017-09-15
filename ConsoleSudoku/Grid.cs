@@ -2,7 +2,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
-using System.Text;
+using System.Text.RegularExpressions;
 using System.Threading.Tasks;
 
 namespace ConsoleSudoku
@@ -15,13 +15,36 @@ namespace ConsoleSudoku
             this.GenerateEmptyGrid();
         }
 
+        public Grid(string cellInfo)
+        {
+            var reg = new Regex(@"^[\d.]{81}$", RegexOptions.Singleline);
+            if (!reg.IsMatch(cellInfo))
+            {
+                throw new ArgumentException("Invalid Grid Cells Info.");
+            }
+
+            grid = new HashSet<Cell>();
+            this.GenerateEmptyGrid();
+            for (int i = 0; i < 80; i++)
+            {
+                if (cellInfo[i] != '.')
+                {
+                    Cells[i].Digit = (Elements)(cellInfo[i] - '1');
+                }
+                else
+                {
+                    Cells[i].Digit = null;
+                }
+            }
+        }
+
         private HashSet<Cell> grid;
         private House[] rows = new Row[9];
         private House[] columns = new Column[9];
         private House[,] blocks = new Block[3, 3];
         private List<House> houses = new List<House>();
 
-        public List<Cell> Cells => grid.OrderBy(c=>c.Position).ToList();
+        public List<Cell> Cells => grid.ToList();
 
         public House[] Columns
         {
