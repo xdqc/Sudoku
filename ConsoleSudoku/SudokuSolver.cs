@@ -142,6 +142,17 @@ namespace ConsoleSudoku
                      .ForEach(c => c.Candidates.RemoveAll(e => e == elem1 || e == elem2 || e == elem3));
             }
         }
+
+        public static void ConfirmNakedQuads(this Sudoku grid, IEnumerable<Tuple<Elements, Elements, Elements, Elements, Cell, Cell, Cell, Cell, House>> nakedQuads)
+        {
+            foreach (var nq in nakedQuads)
+            {
+                nq.House.Where(c => c.Digit == null)
+                     .Where(c => c != nq.Cell1 && c != nq.Cell2 && c != nq.Cell3 && c != nq.Cell4)
+                     .ToList()
+                     .ForEach(c => c.Candidates.RemoveAll(e => e == nq.Elem1 || e == nq.Elem2 || e == nq.Elem3 || e == nq.Elem4));
+            }
+        }
         #endregion
     }
 }

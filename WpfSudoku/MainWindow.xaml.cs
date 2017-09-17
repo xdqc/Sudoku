@@ -11,9 +11,9 @@ using System.Windows.Input;
 using System.Windows.Media;
 using System.Windows.Media.Imaging;
 using System.Windows.Navigation;
-using System.Windows.Shapes;
 using ConsoleSudoku;
 using System.Text.RegularExpressions;
+using System.IO;
 
 namespace WpfSudoku
 {
@@ -512,9 +512,9 @@ namespace WpfSudoku
         #region SaveLoadEvent
         private void Btn_Save_Click(object sender, RoutedEventArgs e)
         {
-            string path = @"\\VBOXSVR\Shared\Sudoku";
+            string path = @"..\..\..\";
             sudoku.SaveGrid(path);
-            MessageBox.Show("Saved at " + path);
+            MessageBox.Show("Saved at " + Path.GetFullPath(path));
         }
 
         private void Btn_Load_Click(object sender, RoutedEventArgs e)
@@ -634,7 +634,56 @@ namespace WpfSudoku
             sudoku.ConfirmNakedTriples(nakedTriples);
         }
 
+        private void Btn_ConfirmNakedQuad_Click(object sender, RoutedEventArgs e)
+        {
+            var nakedQuads = sudoku.NakedQuads();
+            foreach (var nq in nakedQuads)
+            {
+                foreach (Button btn in FindVisualChildren<Button>(Matrix))
+                {
+                    var cell = GetCell(btn);
+                    if (new Cell[] { nq.Cell1,nq.Cell2,nq.Cell3,nq.Cell4}.Contains(cell))
+                    {
+                        btn.Background = Brushes.SpringGreen;
+                    }
+                }
+            }
+            sudoku.ConfirmNakedQuads(nakedQuads);
+        }
 
+        private void Btn_ConfirmHiddenPair_Click(object sender, RoutedEventArgs e)
+        {
+            var thisButton = (Button)sender;
+            thisButton.Click -= DisplayCell;
+            foreach (var hiddenPair in sudoku.HiddenPairs())
+            {
+                foreach (Button btn in FindVisualChildren<Button>(Matrix))
+                {
+                    var cell = GetCell(btn);
+                    if (cell == hiddenPair.Item3 || cell == hiddenPair.Item4)
+                    {
+                        btn.Background = Brushes.PowderBlue;
+                    }
+                }
+            }
+        }
+
+        private void Btn_ConfirmHiddenTriple_Click(object sender, RoutedEventArgs e)
+        {
+            var thisButton = (Button)sender;
+            thisButton.Click -= DisplayCell;
+            foreach (var hiddenTriple in sudoku.HiddenTriples())
+            {
+                foreach (Button btn in FindVisualChildren<Button>(Matrix))
+                {
+                    var cell = GetCell(btn);
+                    if (new Cell[] { hiddenTriple.Item4, hiddenTriple.Item5, hiddenTriple.Item6 }.Contains(cell)) 
+                    {
+                        btn.Background = Brushes.CadetBlue;
+                    }
+                }
+            }
+        }
 
 
 

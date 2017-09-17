@@ -137,6 +137,8 @@ namespace ConsoleSudoku
             }
         }
 
+
+
         public IEnumerable<Cell> FindNeighbors(Cell c)
         {
             // return other cells that can see the cell

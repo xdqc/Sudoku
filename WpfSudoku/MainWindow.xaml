@@ -208,8 +208,9 @@
                 <ComboBox x:Name="Solvingstrategy" Text="E" Height="30">
                     <Button x:Name="Btn_ConfirmNakedPair" Content="Naked Pair" Click="Btn_ConfirmNakedPair_Click"/>
                     <Button x:Name="Btn_ConfirmNakedTriple" Content="Naked Triple" Click="Btn_ConfirmNakedTriple_Click" />
-                    <Button/>
-
+                    <Button x:Name="Btn_ConfirmNakedQuad" Content="Naked Quad" Click="Btn_ConfirmNakedQuad_Click"/>
+                    <Button x:Name="Btn_ConfirmHiddenPair" Content="Hidden Pair" Click="Btn_ConfirmHiddenPair_Click" />
+                    <Button x:Name="Btn_ConfirmHiddenTriple" Content="Hidden Triple" Click="Btn_ConfirmHiddenTriple_Click" />
                 </ComboBox>
             </StackPanel>
             <StackPanel Margin="250,23,15,21" Grid.Row="1">
