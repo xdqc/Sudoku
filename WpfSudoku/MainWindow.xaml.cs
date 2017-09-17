@@ -76,6 +76,11 @@ namespace WpfSudoku
                 btn.Click += DigitButton_Click;
             }
 
+            foreach (Button btn in FindVisualChildren<Button>(PencilPanel))
+            {
+                btn.Click += PencilButton_Click;
+            }
+
             foreach (Button btn in FindVisualChildren<Button>(MainGrid))
             {
                 btn.Click += DisplayCell;
@@ -149,9 +154,11 @@ namespace WpfSudoku
                 btn.Content = CellContent(GetCell(btn));
             }
 
+            // Change button color
             if (sender.GetType() == typeof(Button))
             {
                 var clicked = (Button)sender;
+
                 // clicked==button in panal
                 if (clicked.Content.ToString().Length == 1)
                 {
@@ -168,6 +175,14 @@ namespace WpfSudoku
                         }
                         else if (CellToBeWrite?.Digit == elem)
                         {
+                            HighlightGridDigitColor(elem);
+                        }
+                    }
+                    else if (clicked.Name[0]=='P')
+                    {
+                        if (MarksToBeWrite == elem)
+                        {
+                            HighlightPencilPanelColor(elem);
                             HighlightGridDigitColor(elem);
                         }
                     }
@@ -250,6 +265,8 @@ namespace WpfSudoku
         {
             foreach (Button btn in FindVisualChildren<Button>(Matrix))
             {
+                if (btn.Background != SystemColors.HighlightBrush)
+                {
                     var cell = GetCell(btn);
                     if (cell.Digit != null)
                     {
@@ -265,6 +282,7 @@ namespace WpfSudoku
                             btn.Background = Brushes.Wheat;
                         }
                     }
+                }
             }
         }
 
@@ -273,6 +291,17 @@ namespace WpfSudoku
             foreach (Button btn in FindVisualChildren<Button>(DigitPanel))
             {
                 if (btn.Name[6] - '1' == (int)ele)
+                {
+                    btn.Background = Brushes.MistyRose;
+                }
+            }
+        }
+
+        private void HighlightPencilPanelColor(Elements ele)
+        {
+            foreach (Button btn in FindVisualChildren<Button>(PencilPanel))
+            {
+                if (btn.Name[7] - '1' == (int)ele)
                 {
                     btn.Background = Brushes.MistyRose;
                 }
@@ -337,23 +366,29 @@ namespace WpfSudoku
 
         #region PencilClickEvents
 
-        private void Pencil_1_Click(object sender, RoutedEventArgs e)
+        private void PencilButton_Click(object sender, RoutedEventArgs e)
         {
+            var btn = (Button)e.Source;
+            var selectedElem = (Elements)(btn.Name[7] - '1');
+
             DigitToBeWrite = null;
             if (CellToBeWrite != null)
             {
                 if (CellToBeWrite.Digit == null)
                 {
-                    if (CellToBeWrite.Candidates.Contains(Elements.One))
+                    if (CellToBeWrite.Candidates.Contains(selectedElem))
                     {
-                        CellToBeWrite.Candidates.Remove(Elements.One);
+                        CellToBeWrite.Candidates.Remove(selectedElem);
                     }
-                    CellToBeWrite.Candidates.Add(Elements.One);
+                    else
+                    {
+                        CellToBeWrite.Candidates.Add(selectedElem);
+                    }
                 }
             }
-            else if (MarksToBeWrite != Elements.One)
+            else if (MarksToBeWrite != selectedElem)
             {
-                MarksToBeWrite = Elements.One;
+                MarksToBeWrite = selectedElem;
             }
             else
             {
@@ -477,7 +512,7 @@ namespace WpfSudoku
         #region SaveLoadEvent
         private void Btn_Save_Click(object sender, RoutedEventArgs e)
         {
-            string path = @"E:\C#\Sudoku\";
+            string path = @"\\VBOXSVR\Shared\Sudoku";
             sudoku.SaveGrid(path);
             MessageBox.Show("Saved at " + path);
         }
@@ -604,6 +639,5 @@ namespace WpfSudoku
 
 
         #endregion
-
     }
 }

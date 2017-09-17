@@ -51,103 +51,103 @@
                 <ColumnDefinition/>
             </Grid.ColumnDefinitions>
             <WrapPanel Name="Block0" Grid.Row="0" Grid.Column="0" HorizontalAlignment="Left" Height="240" VerticalAlignment="Top" Width="240">
-                <Button Name="c00" Height="80" Width="80" Background="{DynamicResource {x:Static SystemColors.MenuBrushKey}}"  FocusVisualStyle="{ DynamicResource MyFocusVisualStyle}" FontWeight="Bold"/>
-                <Button Name="c01" Height="80" Width="80" Background="{DynamicResource {x:Static SystemColors.MenuBrushKey}}"  FocusVisualStyle="{ DynamicResource MyFocusVisualStyle}"/>
-                <Button Name="c02" Height="80" Width="80" Background="{DynamicResource {x:Static SystemColors.MenuBrushKey}}"  FocusVisualStyle="{ DynamicResource MyFocusVisualStyle}"/>
-                <Button Name="c10" Height="80" Width="80" Background="{DynamicResource {x:Static SystemColors.MenuBrushKey}}"  FocusVisualStyle="{ DynamicResource MyFocusVisualStyle}"/>
-                <Button Name="c11" Height="80" Width="80" Background="{DynamicResource {x:Static SystemColors.MenuBrushKey}}"  FocusVisualStyle="{ DynamicResource MyFocusVisualStyle}"/>
-                <Button Name="c12" Height="80" Width="80" Background="{DynamicResource {x:Static SystemColors.MenuBrushKey}}"  FocusVisualStyle="{ DynamicResource MyFocusVisualStyle}"/>
-                <Button Name="c20" Height="80" Width="80" Background="{DynamicResource {x:Static SystemColors.MenuBrushKey}}"  FocusVisualStyle="{ DynamicResource MyFocusVisualStyle}"/>
-                <Button Name="c21" Height="80" Width="80" Background="{DynamicResource {x:Static SystemColors.MenuBrushKey}}"  FocusVisualStyle="{ DynamicResource MyFocusVisualStyle}"/>
-                <Button Name="c22" Height="80" Width="80" Background="{DynamicResource {x:Static SystemColors.MenuBrushKey}}"  FocusVisualStyle="{ DynamicResource MyFocusVisualStyle}"/>
+                <Button Name="c00" Height="80" Width="80" Background="{DynamicResource {x:Static SystemColors.MenuBrushKey}}"  FocusVisualStyle="{ DynamicResource MyFocusVisualStyle}" FontWeight="Medium"/>
+                <Button Name="c01" Height="80" Width="80" Background="{DynamicResource {x:Static SystemColors.MenuBrushKey}}"  FocusVisualStyle="{ DynamicResource MyFocusVisualStyle}" FontWeight="Medium"/>
+                <Button Name="c02" Height="80" Width="80" Background="{DynamicResource {x:Static SystemColors.MenuBrushKey}}"  FocusVisualStyle="{ DynamicResource MyFocusVisualStyle}" FontWeight="Medium"/>
+                <Button Name="c10" Height="80" Width="80" Background="{DynamicResource {x:Static SystemColors.MenuBrushKey}}"  FocusVisualStyle="{ DynamicResource MyFocusVisualStyle}" FontWeight="Medium"/>
+                <Button Name="c11" Height="80" Width="80" Background="{DynamicResource {x:Static SystemColors.MenuBrushKey}}"  FocusVisualStyle="{ DynamicResource MyFocusVisualStyle}" FontWeight="Medium"/>
+                <Button Name="c12" Height="80" Width="80" Background="{DynamicResource {x:Static SystemColors.MenuBrushKey}}"  FocusVisualStyle="{ DynamicResource MyFocusVisualStyle}" FontWeight="Medium"/>
+                <Button Name="c20" Height="80" Width="80" Background="{DynamicResource {x:Static SystemColors.MenuBrushKey}}"  FocusVisualStyle="{ DynamicResource MyFocusVisualStyle}" FontWeight="Medium"/>
+                <Button Name="c21" Height="80" Width="80" Background="{DynamicResource {x:Static SystemColors.MenuBrushKey}}"  FocusVisualStyle="{ DynamicResource MyFocusVisualStyle}" FontWeight="Medium"/>
+                <Button Name="c22" Height="80" Width="80" Background="{DynamicResource {x:Static SystemColors.MenuBrushKey}}"  FocusVisualStyle="{ DynamicResource MyFocusVisualStyle}" FontWeight="Medium"/>
             </WrapPanel>
             <WrapPanel Name="Block1" Grid.Row="0" Grid.Column="1" HorizontalAlignment="Left" Height="240" VerticalAlignment="Top" Width="240">
-                <Button Name="c03" Height="80" Width="80" Background="{DynamicResource {x:Static SystemColors.ControlLightBrushKey}}"  FocusVisualStyle="{ DynamicResource MyFocusVisualStyle}"/>
-                <Button Name="c04" Height="80" Width="80" Background="{DynamicResource {x:Static SystemColors.ControlLightBrushKey}}"  FocusVisualStyle="{ DynamicResource MyFocusVisualStyle}"/>
-                <Button Name="c05" Height="80" Width="80" Background="{DynamicResource {x:Static SystemColors.ControlLightBrushKey}}"  FocusVisualStyle="{ DynamicResource MyFocusVisualStyle}"/>
-                <Button Name="c13" Height="80" Width="80" Background="{DynamicResource {x:Static SystemColors.ControlLightBrushKey}}"  FocusVisualStyle="{ DynamicResource MyFocusVisualStyle}"/>
-                <Button Name="c14" Height="80" Width="80" Background="{DynamicResource {x:Static SystemColors.ControlLightBrushKey}}"  FocusVisualStyle="{ DynamicResource MyFocusVisualStyle}"/>
-                <Button Name="c15" Height="80" Width="80" Background="{DynamicResource {x:Static SystemColors.ControlLightBrushKey}}"  FocusVisualStyle="{ DynamicResource MyFocusVisualStyle}"/>
-                <Button Name="c23" Height="80" Width="80" Background="{DynamicResource {x:Static SystemColors.ControlLightBrushKey}}"  FocusVisualStyle="{ DynamicResource MyFocusVisualStyle}"/>
-                <Button Name="c24" Height="80" Width="80" Background="{DynamicResource {x:Static SystemColors.ControlLightBrushKey}}"  FocusVisualStyle="{ DynamicResource MyFocusVisualStyle}"/>
-                <Button Name="c25" Height="80" Width="80" Background="{DynamicResource {x:Static SystemColors.ControlLightBrushKey}}"  FocusVisualStyle="{ DynamicResource MyFocusVisualStyle}"/>
+                <Button Name="c03" Height="80" Width="80" Background="{DynamicResource {x:Static SystemColors.ControlLightBrushKey}}"  FocusVisualStyle="{ DynamicResource MyFocusVisualStyle}" FontWeight="Medium"/>
+                <Button Name="c04" Height="80" Width="80" Background="{DynamicResource {x:Static SystemColors.ControlLightBrushKey}}"  FocusVisualStyle="{ DynamicResource MyFocusVisualStyle}" FontWeight="Medium"/>
+                <Button Name="c05" Height="80" Width="80" Background="{DynamicResource {x:Static SystemColors.ControlLightBrushKey}}"  FocusVisualStyle="{ DynamicResource MyFocusVisualStyle}" FontWeight="Medium"/>
+                <Button Name="c13" Height="80" Width="80" Background="{DynamicResource {x:Static SystemColors.ControlLightBrushKey}}"  FocusVisualStyle="{ DynamicResource MyFocusVisualStyle}" FontWeight="Medium"/>
+                <Button Name="c14" Height="80" Width="80" Background="{DynamicResource {x:Static SystemColors.ControlLightBrushKey}}"  FocusVisualStyle="{ DynamicResource MyFocusVisualStyle}" FontWeight="Medium"/>
+                <Button Name="c15" Height="80" Width="80" Background="{DynamicResource {x:Static SystemColors.ControlLightBrushKey}}"  FocusVisualStyle="{ DynamicResource MyFocusVisualStyle}" FontWeight="Medium"/>
+                <Button Name="c23" Height="80" Width="80" Background="{DynamicResource {x:Static SystemColors.ControlLightBrushKey}}"  FocusVisualStyle="{ DynamicResource MyFocusVisualStyle}" FontWeight="Medium"/>
+                <Button Name="c24" Height="80" Width="80" Background="{DynamicResource {x:Static SystemColors.ControlLightBrushKey}}"  FocusVisualStyle="{ DynamicResource MyFocusVisualStyle}" FontWeight="Medium"/>
+                <Button Name="c25" Height="80" Width="80" Background="{DynamicResource {x:Static SystemColors.ControlLightBrushKey}}"  FocusVisualStyle="{ DynamicResource MyFocusVisualStyle}" FontWeight="Medium"/>
             </WrapPanel>
             <WrapPanel Name="Block2" Grid.Row="0" Grid.Column="2" HorizontalAlignment="Left" Height="240" VerticalAlignment="Top" Width="240">
-                <Button Name="c06" Height="80" Width="80" Background="{DynamicResource {x:Static SystemColors.MenuBrushKey}}"  FocusVisualStyle="{ DynamicResource MyFocusVisualStyle}"/>
-                <Button Name="c07" Height="80" Width="80" Background="{DynamicResource {x:Static SystemColors.MenuBrushKey}}"  FocusVisualStyle="{ DynamicResource MyFocusVisualStyle}"/>
-                <Button Name="c08" Height="80" Width="80" Background="{DynamicResource {x:Static SystemColors.MenuBrushKey}}"  FocusVisualStyle="{ DynamicResource MyFocusVisualStyle}"/>
-                <Button Name="c16" Height="80" Width="80" Background="{DynamicResource {x:Static SystemColors.MenuBrushKey}}"  FocusVisualStyle="{ DynamicResource MyFocusVisualStyle}"/>
-                <Button Name="c17" Height="80" Width="80" Background="{DynamicResource {x:Static SystemColors.MenuBrushKey}}"  FocusVisualStyle="{ DynamicResource MyFocusVisualStyle}"/>
-                <Button Name="c18" Height="80" Width="80" Background="{DynamicResource {x:Static SystemColors.MenuBrushKey}}"  FocusVisualStyle="{ DynamicResource MyFocusVisualStyle}"/>
-                <Button Name="c26" Height="80" Width="80" Background="{DynamicResource {x:Static SystemColors.MenuBrushKey}}"  FocusVisualStyle="{ DynamicResource MyFocusVisualStyle}"/>
-                <Button Name="c27" Height="80" Width="80" Background="{DynamicResource {x:Static SystemColors.MenuBrushKey}}"  FocusVisualStyle="{ DynamicResource MyFocusVisualStyle}"/>
-                <Button Name="c28" Height="80" Width="80" Background="{DynamicResource {x:Static SystemColors.MenuBrushKey}}"  FocusVisualStyle="{ DynamicResource MyFocusVisualStyle}"/>
+                <Button Name="c06" Height="80" Width="80" Background="{DynamicResource {x:Static SystemColors.MenuBrushKey}}"  FocusVisualStyle="{ DynamicResource MyFocusVisualStyle}" FontWeight="Medium"/>
+                <Button Name="c07" Height="80" Width="80" Background="{DynamicResource {x:Static SystemColors.MenuBrushKey}}"  FocusVisualStyle="{ DynamicResource MyFocusVisualStyle}" FontWeight="Medium"/>
+                <Button Name="c08" Height="80" Width="80" Background="{DynamicResource {x:Static SystemColors.MenuBrushKey}}"  FocusVisualStyle="{ DynamicResource MyFocusVisualStyle}" FontWeight="Medium"/>
+                <Button Name="c16" Height="80" Width="80" Background="{DynamicResource {x:Static SystemColors.MenuBrushKey}}"  FocusVisualStyle="{ DynamicResource MyFocusVisualStyle}" FontWeight="Medium"/>
+                <Button Name="c17" Height="80" Width="80" Background="{DynamicResource {x:Static SystemColors.MenuBrushKey}}"  FocusVisualStyle="{ DynamicResource MyFocusVisualStyle}" FontWeight="Medium"/>
+                <Button Name="c18" Height="80" Width="80" Background="{DynamicResource {x:Static SystemColors.MenuBrushKey}}"  FocusVisualStyle="{ DynamicResource MyFocusVisualStyle}" FontWeight="Medium"/>
+                <Button Name="c26" Height="80" Width="80" Background="{DynamicResource {x:Static SystemColors.MenuBrushKey}}"  FocusVisualStyle="{ DynamicResource MyFocusVisualStyle}" FontWeight="Medium"/>
+                <Button Name="c27" Height="80" Width="80" Background="{DynamicResource {x:Static SystemColors.MenuBrushKey}}"  FocusVisualStyle="{ DynamicResource MyFocusVisualStyle}" FontWeight="Medium"/>
+                <Button Name="c28" Height="80" Width="80" Background="{DynamicResource {x:Static SystemColors.MenuBrushKey}}"  FocusVisualStyle="{ DynamicResource MyFocusVisualStyle}" FontWeight="Medium"/>
             </WrapPanel>
             <WrapPanel Name="Block3" Grid.Row="1" Grid.Column="0" HorizontalAlignment="Left" Height="240" VerticalAlignment="Top" Width="240">
-                <Button Name="c30" Height="80" Width="80" Background="{DynamicResource {x:Static SystemColors.ControlLightBrushKey}}"  FocusVisualStyle="{ DynamicResource MyFocusVisualStyle}"/>
-                <Button Name="c31" Height="80" Width="80" Background="{DynamicResource {x:Static SystemColors.ControlLightBrushKey}}"  FocusVisualStyle="{ DynamicResource MyFocusVisualStyle}"/>
-                <Button Name="c32" Height="80" Width="80" Background="{DynamicResource {x:Static SystemColors.ControlLightBrushKey}}"  FocusVisualStyle="{ DynamicResource MyFocusVisualStyle}"/>
-                <Button Name="c40" Height="80" Width="80" Background="{DynamicResource {x:Static SystemColors.ControlLightBrushKey}}"  FocusVisualStyle="{ DynamicResource MyFocusVisualStyle}"/>
-                <Button Name="c41" Height="80" Width="80" Background="{DynamicResource {x:Static SystemColors.ControlLightBrushKey}}"  FocusVisualStyle="{ DynamicResource MyFocusVisualStyle}"/>
-                <Button Name="c42" Height="80" Width="80" Background="{DynamicResource {x:Static SystemColors.ControlLightBrushKey}}"  FocusVisualStyle="{ DynamicResource MyFocusVisualStyle}"/>
-                <Button Name="c50" Height="80" Width="80" Background="{DynamicResource {x:Static SystemColors.ControlLightBrushKey}}"  FocusVisualStyle="{ DynamicResource MyFocusVisualStyle}"/>
-                <Button Name="c51" Height="80" Width="80" Background="{DynamicResource {x:Static SystemColors.ControlLightBrushKey}}"  FocusVisualStyle="{ DynamicResource MyFocusVisualStyle}"/>
-                <Button Name="c52" Height="80" Width="80" Background="{DynamicResource {x:Static SystemColors.ControlLightBrushKey}}"  FocusVisualStyle="{ DynamicResource MyFocusVisualStyle}"/>
+                <Button Name="c30" Height="80" Width="80" Background="{DynamicResource {x:Static SystemColors.ControlLightBrushKey}}"  FocusVisualStyle="{ DynamicResource MyFocusVisualStyle}" FontWeight="Medium"/>
+                <Button Name="c31" Height="80" Width="80" Background="{DynamicResource {x:Static SystemColors.ControlLightBrushKey}}"  FocusVisualStyle="{ DynamicResource MyFocusVisualStyle}" FontWeight="Medium"/>
+                <Button Name="c32" Height="80" Width="80" Background="{DynamicResource {x:Static SystemColors.ControlLightBrushKey}}"  FocusVisualStyle="{ DynamicResource MyFocusVisualStyle}" FontWeight="Medium"/>
+                <Button Name="c40" Height="80" Width="80" Background="{DynamicResource {x:Static SystemColors.ControlLightBrushKey}}"  FocusVisualStyle="{ DynamicResource MyFocusVisualStyle}" FontWeight="Medium"/>
+                <Button Name="c41" Height="80" Width="80" Background="{DynamicResource {x:Static SystemColors.ControlLightBrushKey}}"  FocusVisualStyle="{ DynamicResource MyFocusVisualStyle}" FontWeight="Medium"/>
+                <Button Name="c42" Height="80" Width="80" Background="{DynamicResource {x:Static SystemColors.ControlLightBrushKey}}"  FocusVisualStyle="{ DynamicResource MyFocusVisualStyle}" FontWeight="Medium"/>
+                <Button Name="c50" Height="80" Width="80" Background="{DynamicResource {x:Static SystemColors.ControlLightBrushKey}}"  FocusVisualStyle="{ DynamicResource MyFocusVisualStyle}" FontWeight="Medium"/>
+                <Button Name="c51" Height="80" Width="80" Background="{DynamicResource {x:Static SystemColors.ControlLightBrushKey}}"  FocusVisualStyle="{ DynamicResource MyFocusVisualStyle}" FontWeight="Medium"/>
+                <Button Name="c52" Height="80" Width="80" Background="{DynamicResource {x:Static SystemColors.ControlLightBrushKey}}"  FocusVisualStyle="{ DynamicResource MyFocusVisualStyle}" FontWeight="Medium"/>
             </WrapPanel>
             <WrapPanel Name="Block4" Grid.Row="1" Grid.Column="1" HorizontalAlignment="Left" Height="240" VerticalAlignment="Top" Width="240">
-                <Button Name="c33" Height="80" Width="80" Background="{DynamicResource {x:Static SystemColors.ControlBrushKey}}"  FocusVisualStyle="{ DynamicResource MyFocusVisualStyle}"/>
-                <Button Name="c34" Height="80" Width="80" Background="{DynamicResource {x:Static SystemColors.ControlBrushKey}}"  FocusVisualStyle="{ DynamicResource MyFocusVisualStyle}"/>
-                <Button Name="c35" Height="80" Width="80" Background="{DynamicResource {x:Static SystemColors.ControlBrushKey}}"  FocusVisualStyle="{ DynamicResource MyFocusVisualStyle}"/>
-                <Button Name="c43" Height="80" Width="80" Background="{DynamicResource {x:Static SystemColors.ControlBrushKey}}"  FocusVisualStyle="{ DynamicResource MyFocusVisualStyle}"/>
-                <Button Name="c44" Height="80" Width="80" Background="{DynamicResource {x:Static SystemColors.ControlBrushKey}}"  FocusVisualStyle="{ DynamicResource MyFocusVisualStyle}"/>
-                <Button Name="c45" Height="80" Width="80" Background="{DynamicResource {x:Static SystemColors.ControlBrushKey}}"  FocusVisualStyle="{ DynamicResource MyFocusVisualStyle}"/>
-                <Button Name="c53" Height="80" Width="80" Background="{DynamicResource {x:Static SystemColors.ControlBrushKey}}"  FocusVisualStyle="{ DynamicResource MyFocusVisualStyle}"/>
-                <Button Name="c54" Height="80" Width="80" Background="{DynamicResource {x:Static SystemColors.ControlBrushKey}}"  FocusVisualStyle="{ DynamicResource MyFocusVisualStyle}"/>
-                <Button Name="c55" Height="80" Width="80" Background="{DynamicResource {x:Static SystemColors.ControlBrushKey}}"  FocusVisualStyle="{ DynamicResource MyFocusVisualStyle}"/>
+                <Button Name="c33" Height="80" Width="80" Background="{DynamicResource {x:Static SystemColors.ControlBrushKey}}"  FocusVisualStyle="{ DynamicResource MyFocusVisualStyle}" FontWeight="Medium"/>
+                <Button Name="c34" Height="80" Width="80" Background="{DynamicResource {x:Static SystemColors.ControlBrushKey}}"  FocusVisualStyle="{ DynamicResource MyFocusVisualStyle}" FontWeight="Medium"/>
+                <Button Name="c35" Height="80" Width="80" Background="{DynamicResource {x:Static SystemColors.ControlBrushKey}}"  FocusVisualStyle="{ DynamicResource MyFocusVisualStyle}" FontWeight="Medium"/>
+                <Button Name="c43" Height="80" Width="80" Background="{DynamicResource {x:Static SystemColors.ControlBrushKey}}"  FocusVisualStyle="{ DynamicResource MyFocusVisualStyle}" FontWeight="Medium"/>
+                <Button Name="c44" Height="80" Width="80" Background="{DynamicResource {x:Static SystemColors.ControlBrushKey}}"  FocusVisualStyle="{ DynamicResource MyFocusVisualStyle}" FontWeight="Medium"/>
+                <Button Name="c45" Height="80" Width="80" Background="{DynamicResource {x:Static SystemColors.ControlBrushKey}}"  FocusVisualStyle="{ DynamicResource MyFocusVisualStyle}" FontWeight="Medium"/>
+                <Button Name="c53" Height="80" Width="80" Background="{DynamicResource {x:Static SystemColors.ControlBrushKey}}"  FocusVisualStyle="{ DynamicResource MyFocusVisualStyle}" FontWeight="Medium"/>
+                <Button Name="c54" Height="80" Width="80" Background="{DynamicResource {x:Static SystemColors.ControlBrushKey}}"  FocusVisualStyle="{ DynamicResource MyFocusVisualStyle}" FontWeight="Medium"/>
+                <Button Name="c55" Height="80" Width="80" Background="{DynamicResource {x:Static SystemColors.ControlBrushKey}}"  FocusVisualStyle="{ DynamicResource MyFocusVisualStyle}" FontWeight="Medium"/>
             </WrapPanel>
             <WrapPanel Name="Block5" Grid.Row="1" Grid.Column="2" HorizontalAlignment="Left" Height="240" VerticalAlignment="Top" Width="240">
-                <Button Name="c36" Height="80" Width="80" Background="{DynamicResource {x:Static SystemColors.ControlLightBrushKey}}"  FocusVisualStyle="{ DynamicResource MyFocusVisualStyle}"/>
-                <Button Name="c37" Height="80" Width="80" Background="{DynamicResource {x:Static SystemColors.ControlLightBrushKey}}"  FocusVisualStyle="{ DynamicResource MyFocusVisualStyle}"/>
-                <Button Name="c38" Height="80" Width="80" Background="{DynamicResource {x:Static SystemColors.ControlLightBrushKey}}"  FocusVisualStyle="{ DynamicResource MyFocusVisualStyle}"/>
-                <Button Name="c46" Height="80" Width="80" Background="{DynamicResource {x:Static SystemColors.ControlLightBrushKey}}"  FocusVisualStyle="{ DynamicResource MyFocusVisualStyle}"/>
-                <Button Name="c47" Height="80" Width="80" Background="{DynamicResource {x:Static SystemColors.ControlLightBrushKey}}"  FocusVisualStyle="{ DynamicResource MyFocusVisualStyle}"/>
-                <Button Name="c48" Height="80" Width="80" Background="{DynamicResource {x:Static SystemColors.ControlLightBrushKey}}"  FocusVisualStyle="{ DynamicResource MyFocusVisualStyle}"/>
-                <Button Name="c56" Height="80" Width="80" Background="{DynamicResource {x:Static SystemColors.ControlLightBrushKey}}"  FocusVisualStyle="{ DynamicResource MyFocusVisualStyle}"/>
-                <Button Name="c57" Height="80" Width="80" Background="{DynamicResource {x:Static SystemColors.ControlLightBrushKey}}"  FocusVisualStyle="{ DynamicResource MyFocusVisualStyle}"/>
-                <Button Name="c58" Height="80" Width="80" Background="{DynamicResource {x:Static SystemColors.ControlLightBrushKey}}"  FocusVisualStyle="{ DynamicResource MyFocusVisualStyle}"/>
+                <Button Name="c36" Height="80" Width="80" Background="{DynamicResource {x:Static SystemColors.ControlLightBrushKey}}"  FocusVisualStyle="{ DynamicResource MyFocusVisualStyle}" FontWeight="Medium"/>
+                <Button Name="c37" Height="80" Width="80" Background="{DynamicResource {x:Static SystemColors.ControlLightBrushKey}}"  FocusVisualStyle="{ DynamicResource MyFocusVisualStyle}" FontWeight="Medium"/>
+                <Button Name="c38" Height="80" Width="80" Background="{DynamicResource {x:Static SystemColors.ControlLightBrushKey}}"  FocusVisualStyle="{ DynamicResource MyFocusVisualStyle}" FontWeight="Medium"/>
+                <Button Name="c46" Height="80" Width="80" Background="{DynamicResource {x:Static SystemColors.ControlLightBrushKey}}"  FocusVisualStyle="{ DynamicResource MyFocusVisualStyle}" FontWeight="Medium"/>
+                <Button Name="c47" Height="80" Width="80" Background="{DynamicResource {x:Static SystemColors.ControlLightBrushKey}}"  FocusVisualStyle="{ DynamicResource MyFocusVisualStyle}" FontWeight="Medium"/>
+                <Button Name="c48" Height="80" Width="80" Background="{DynamicResource {x:Static SystemColors.ControlLightBrushKey}}"  FocusVisualStyle="{ DynamicResource MyFocusVisualStyle}" FontWeight="Medium"/>
+                <Button Name="c56" Height="80" Width="80" Background="{DynamicResource {x:Static SystemColors.ControlLightBrushKey}}"  FocusVisualStyle="{ DynamicResource MyFocusVisualStyle}" FontWeight="Medium"/>
+                <Button Name="c57" Height="80" Width="80" Background="{DynamicResource {x:Static SystemColors.ControlLightBrushKey}}"  FocusVisualStyle="{ DynamicResource MyFocusVisualStyle}" FontWeight="Medium"/>
+                <Button Name="c58" Height="80" Width="80" Background="{DynamicResource {x:Static SystemColors.ControlLightBrushKey}}"  FocusVisualStyle="{ DynamicResource MyFocusVisualStyle}" FontWeight="Medium"/>
             </WrapPanel>
             <WrapPanel Name="Block6" Grid.Row="2" Grid.Column="0" HorizontalAlignment="Left" Height="240" VerticalAlignment="Top" Width="240">
-                <Button Name="c60" Height="80" Width="80" Background="{DynamicResource {x:Static SystemColors.MenuBrushKey}}"  FocusVisualStyle="{ DynamicResource MyFocusVisualStyle}"/>
-                <Button Name="c61" Height="80" Width="80" Background="{DynamicResource {x:Static SystemColors.MenuBrushKey}}"  FocusVisualStyle="{ DynamicResource MyFocusVisualStyle}"/>
-                <Button Name="c62" Height="80" Width="80" Background="{DynamicResource {x:Static SystemColors.MenuBrushKey}}"  FocusVisualStyle="{ DynamicResource MyFocusVisualStyle}"/>
-                <Button Name="c70" Height="80" Width="80" Background="{DynamicResource {x:Static SystemColors.MenuBrushKey}}"  FocusVisualStyle="{ DynamicResource MyFocusVisualStyle}"/>
-                <Button Name="c71" Height="80" Width="80" Background="{DynamicResource {x:Static SystemColors.MenuBrushKey}}"  FocusVisualStyle="{ DynamicResource MyFocusVisualStyle}"/>
-                <Button Name="c72" Height="80" Width="80" Background="{DynamicResource {x:Static SystemColors.MenuBrushKey}}"  FocusVisualStyle="{ DynamicResource MyFocusVisualStyle}"/>
-                <Button Name="c80" Height="80" Width="80" Background="{DynamicResource {x:Static SystemColors.MenuBrushKey}}"  FocusVisualStyle="{ DynamicResource MyFocusVisualStyle}"/>
-                <Button Name="c81" Height="80" Width="80" Background="{DynamicResource {x:Static SystemColors.MenuBrushKey}}"  FocusVisualStyle="{ DynamicResource MyFocusVisualStyle}"/>
-                <Button Name="c82" Height="80" Width="80" Background="{DynamicResource {x:Static SystemColors.MenuBrushKey}}"  FocusVisualStyle="{ DynamicResource MyFocusVisualStyle}"/>
+                <Button Name="c60" Height="80" Width="80" Background="{DynamicResource {x:Static SystemColors.MenuBrushKey}}"  FocusVisualStyle="{ DynamicResource MyFocusVisualStyle}" FontWeight="Medium"/>
+                <Button Name="c61" Height="80" Width="80" Background="{DynamicResource {x:Static SystemColors.MenuBrushKey}}"  FocusVisualStyle="{ DynamicResource MyFocusVisualStyle}" FontWeight="Medium"/>
+                <Button Name="c62" Height="80" Width="80" Background="{DynamicResource {x:Static SystemColors.MenuBrushKey}}"  FocusVisualStyle="{ DynamicResource MyFocusVisualStyle}" FontWeight="Medium"/>
+                <Button Name="c70" Height="80" Width="80" Background="{DynamicResource {x:Static SystemColors.MenuBrushKey}}"  FocusVisualStyle="{ DynamicResource MyFocusVisualStyle}" FontWeight="Medium"/>
+                <Button Name="c71" Height="80" Width="80" Background="{DynamicResource {x:Static SystemColors.MenuBrushKey}}"  FocusVisualStyle="{ DynamicResource MyFocusVisualStyle}" FontWeight="Medium"/>
+                <Button Name="c72" Height="80" Width="80" Background="{DynamicResource {x:Static SystemColors.MenuBrushKey}}"  FocusVisualStyle="{ DynamicResource MyFocusVisualStyle}" FontWeight="Medium"/>
+                <Button Name="c80" Height="80" Width="80" Background="{DynamicResource {x:Static SystemColors.MenuBrushKey}}"  FocusVisualStyle="{ DynamicResource MyFocusVisualStyle}" FontWeight="Medium"/>
+                <Button Name="c81" Height="80" Width="80" Background="{DynamicResource {x:Static SystemColors.MenuBrushKey}}"  FocusVisualStyle="{ DynamicResource MyFocusVisualStyle}" FontWeight="Medium"/>
+                <Button Name="c82" Height="80" Width="80" Background="{DynamicResource {x:Static SystemColors.MenuBrushKey}}"  FocusVisualStyle="{ DynamicResource MyFocusVisualStyle}" FontWeight="Medium"/>
             </WrapPanel>
             <WrapPanel Name="Block7" Grid.Row="2" Grid.Column="1" HorizontalAlignment="Left" Height="240" VerticalAlignment="Top" Width="240">
-                <Button Name="c63" Height="80" Width="80" Background="{DynamicResource {x:Static SystemColors.ControlLightBrushKey}}"  FocusVisualStyle="{ DynamicResource MyFocusVisualStyle}"/>
-                <Button Name="c64" Height="80" Width="80" Background="{DynamicResource {x:Static SystemColors.ControlLightBrushKey}}"  FocusVisualStyle="{ DynamicResource MyFocusVisualStyle}"/>
-                <Button Name="c65" Height="80" Width="80" Background="{DynamicResource {x:Static SystemColors.ControlLightBrushKey}}"  FocusVisualStyle="{ DynamicResource MyFocusVisualStyle}"/>
-                <Button Name="c73" Height="80" Width="80" Background="{DynamicResource {x:Static SystemColors.ControlLightBrushKey}}"  FocusVisualStyle="{ DynamicResource MyFocusVisualStyle}"/>
-                <Button Name="c74" Height="80" Width="80" Background="{DynamicResource {x:Static SystemColors.ControlLightBrushKey}}"  FocusVisualStyle="{ DynamicResource MyFocusVisualStyle}"/>
-                <Button Name="c75" Height="80" Width="80" Background="{DynamicResource {x:Static SystemColors.ControlLightBrushKey}}"  FocusVisualStyle="{ DynamicResource MyFocusVisualStyle}"/>
-                <Button Name="c83" Height="80" Width="80" Background="{DynamicResource {x:Static SystemColors.ControlLightBrushKey}}"  FocusVisualStyle="{ DynamicResource MyFocusVisualStyle}"/>
-                <Button Name="c84" Height="80" Width="80" Background="{DynamicResource {x:Static SystemColors.ControlLightBrushKey}}"  FocusVisualStyle="{ DynamicResource MyFocusVisualStyle}"/>
-                <Button Name="c85" Height="80" Width="80" Background="{DynamicResource {x:Static SystemColors.ControlLightBrushKey}}"  FocusVisualStyle="{ DynamicResource MyFocusVisualStyle}"/>
+                <Button Name="c63" Height="80" Width="80" Background="{DynamicResource {x:Static SystemColors.ControlLightBrushKey}}"  FocusVisualStyle="{ DynamicResource MyFocusVisualStyle}" FontWeight="Medium"/>
+                <Button Name="c64" Height="80" Width="80" Background="{DynamicResource {x:Static SystemColors.ControlLightBrushKey}}"  FocusVisualStyle="{ DynamicResource MyFocusVisualStyle}" FontWeight="Medium"/>
+                <Button Name="c65" Height="80" Width="80" Background="{DynamicResource {x:Static SystemColors.ControlLightBrushKey}}"  FocusVisualStyle="{ DynamicResource MyFocusVisualStyle}" FontWeight="Medium"/>
+                <Button Name="c73" Height="80" Width="80" Background="{DynamicResource {x:Static SystemColors.ControlLightBrushKey}}"  FocusVisualStyle="{ DynamicResource MyFocusVisualStyle}" FontWeight="Medium"/>
+                <Button Name="c74" Height="80" Width="80" Background="{DynamicResource {x:Static SystemColors.ControlLightBrushKey}}"  FocusVisualStyle="{ DynamicResource MyFocusVisualStyle}" FontWeight="Medium"/>
+                <Button Name="c75" Height="80" Width="80" Background="{DynamicResource {x:Static SystemColors.ControlLightBrushKey}}"  FocusVisualStyle="{ DynamicResource MyFocusVisualStyle}" FontWeight="Medium"/>
+                <Button Name="c83" Height="80" Width="80" Background="{DynamicResource {x:Static SystemColors.ControlLightBrushKey}}"  FocusVisualStyle="{ DynamicResource MyFocusVisualStyle}" FontWeight="Medium"/>
+                <Button Name="c84" Height="80" Width="80" Background="{DynamicResource {x:Static SystemColors.ControlLightBrushKey}}"  FocusVisualStyle="{ DynamicResource MyFocusVisualStyle}" FontWeight="Medium"/>
+                <Button Name="c85" Height="80" Width="80" Background="{DynamicResource {x:Static SystemColors.ControlLightBrushKey}}"  FocusVisualStyle="{ DynamicResource MyFocusVisualStyle}" FontWeight="Medium"/>
             </WrapPanel>
             <WrapPanel Name="Block8" Grid.Row="2" Grid.Column="2" HorizontalAlignment="Left" Height="240" VerticalAlignment="Top" Width="240">
-                <Button Name="c66" Height="80" Width="80" Background="{DynamicResource {x:Static SystemColors.MenuBrushKey}}"  FocusVisualStyle="{ DynamicResource MyFocusVisualStyle}"/>
-                <Button Name="c67" Height="80" Width="80" Background="{DynamicResource {x:Static SystemColors.MenuBrushKey}}"  FocusVisualStyle="{ DynamicResource MyFocusVisualStyle}"/>
-                <Button Name="c68" Height="80" Width="80" Background="{DynamicResource {x:Static SystemColors.MenuBrushKey}}"  FocusVisualStyle="{ DynamicResource MyFocusVisualStyle}"/>
-                <Button Name="c76" Height="80" Width="80" Background="{DynamicResource {x:Static SystemColors.MenuBrushKey}}"  FocusVisualStyle="{ DynamicResource MyFocusVisualStyle}"/>
-                <Button Name="c77" Height="80" Width="80" Background="{DynamicResource {x:Static SystemColors.MenuBrushKey}}"  FocusVisualStyle="{ DynamicResource MyFocusVisualStyle}"/>
-                <Button Name="c78" Height="80" Width="80" Background="{DynamicResource {x:Static SystemColors.MenuBrushKey}}"  FocusVisualStyle="{ DynamicResource MyFocusVisualStyle}"/>
-                <Button Name="c86" Height="80" Width="80" Background="{DynamicResource {x:Static SystemColors.MenuBrushKey}}"  FocusVisualStyle="{ DynamicResource MyFocusVisualStyle}"/>
-                <Button Name="c87" Height="80" Width="80" Background="{DynamicResource {x:Static SystemColors.MenuBrushKey}}"  FocusVisualStyle="{ DynamicResource MyFocusVisualStyle}"/>
-                <Button Name="c88" Height="80" Width="80" Background="{DynamicResource {x:Static SystemColors.MenuBrushKey}}"  FocusVisualStyle="{ DynamicResource MyFocusVisualStyle}"/>
+                <Button Name="c66" Height="80" Width="80" Background="{DynamicResource {x:Static SystemColors.MenuBrushKey}}"  FocusVisualStyle="{ DynamicResource MyFocusVisualStyle}" FontWeight="Medium"/>
+                <Button Name="c67" Height="80" Width="80" Background="{DynamicResource {x:Static SystemColors.MenuBrushKey}}"  FocusVisualStyle="{ DynamicResource MyFocusVisualStyle}" FontWeight="Medium"/>
+                <Button Name="c68" Height="80" Width="80" Background="{DynamicResource {x:Static SystemColors.MenuBrushKey}}"  FocusVisualStyle="{ DynamicResource MyFocusVisualStyle}" FontWeight="Medium"/>
+                <Button Name="c76" Height="80" Width="80" Background="{DynamicResource {x:Static SystemColors.MenuBrushKey}}"  FocusVisualStyle="{ DynamicResource MyFocusVisualStyle}" FontWeight="Medium"/>
+                <Button Name="c77" Height="80" Width="80" Background="{DynamicResource {x:Static SystemColors.MenuBrushKey}}"  FocusVisualStyle="{ DynamicResource MyFocusVisualStyle}" FontWeight="Medium"/>
+                <Button Name="c78" Height="80" Width="80" Background="{DynamicResource {x:Static SystemColors.MenuBrushKey}}"  FocusVisualStyle="{ DynamicResource MyFocusVisualStyle}" FontWeight="Medium"/>
+                <Button Name="c86" Height="80" Width="80" Background="{DynamicResource {x:Static SystemColors.MenuBrushKey}}"  FocusVisualStyle="{ DynamicResource MyFocusVisualStyle}" FontWeight="Medium"/>
+                <Button Name="c87" Height="80" Width="80" Background="{DynamicResource {x:Static SystemColors.MenuBrushKey}}"  FocusVisualStyle="{ DynamicResource MyFocusVisualStyle}" FontWeight="Medium"/>
+                <Button Name="c88" Height="80" Width="80" Background="{DynamicResource {x:Static SystemColors.MenuBrushKey}}"  FocusVisualStyle="{ DynamicResource MyFocusVisualStyle}" FontWeight="Medium"/>
             </WrapPanel>
 
             <Border BorderBrush="Black" Grid.Row="0" Grid.Column="0" BorderThickness="2" HorizontalAlignment="Left" Height="240" VerticalAlignment="Top" Width="240"/>
@@ -179,26 +179,26 @@
                 <Button Content="Button" Margin="0 5" Height="40"/>
                 <Button x:Name="Btn_Load" Content="Load" Margin="0 5" Height="40" Click="Btn_Load_Click"/>
                 <Button x:Name="Btn_Save" Content="Save" Margin="0 5" Height="40" Click="Btn_Save_Click"/>
-                <Slider x:Name="EmptyCellsSlider" HorizontalAlignment="Left" Height="41" Margin="-128,10,0,0" Width="275" SmallChange="1" Maximum="80" LargeChange="10" Value="50" Cursor="ScrollWE"/>
+                <Slider x:Name="EmptyCellsSlider" HorizontalAlignment="Left" Height="41" Margin="-128,10,0,0" Width="275" SmallChange="1" Maximum="80" LargeChange="10" Value="60" Cursor="ScrollWE"/>
 
             </StackPanel>
             <WrapPanel Name="DigitPanel" Height="230" Margin="10,0,0,21" Grid.Row="1" VerticalAlignment="Bottom" HorizontalAlignment="Left" Width="240">
                 <Button x:Name="Digit_1" Content="1" Margin="10" Width="60" Height="60" Background="{DynamicResource {x:Static SystemColors.InfoBrushKey}}" FontSize="36" TextOptions.TextFormattingMode="Display" FontWeight="SemiBold" />
-                <Button x:Name="Digit_2" Content="2" Margin="10" Width="60" Height="60" Background="{DynamicResource {x:Static SystemColors.InfoBrushKey}}" FontSize="36" FontWeight="SemiBold" TextOptions.TextFormattingMode="Display" />
-                <Button x:Name="Digit_3" Content="3" Margin="10" Width="60" Height="60" Background="{DynamicResource {x:Static SystemColors.InfoBrushKey}}" FontSize="36" FontWeight="SemiBold" TextOptions.TextFormattingMode="Display" />
-                <Button x:Name="Digit_4" Content="4" Margin="10" Width="60" Height="60" Background="{DynamicResource {x:Static SystemColors.InfoBrushKey}}" FontSize="36" FontWeight="SemiBold" TextOptions.TextFormattingMode="Display" />
-                <Button x:Name="Digit_5" Content="5" Margin="10" Width="60" Height="60" Background="{DynamicResource {x:Static SystemColors.InfoBrushKey}}" FontSize="36" FontWeight="SemiBold" TextOptions.TextFormattingMode="Display" />
-                <Button x:Name="Digit_6" Content="6" Margin="10" Width="60" Height="60" Background="{DynamicResource {x:Static SystemColors.InfoBrushKey}}" FontSize="36" FontWeight="SemiBold" TextOptions.TextFormattingMode="Display" />
-                <Button x:Name="Digit_7" Content="7" Margin="10" Width="60" Height="60" Background="{DynamicResource {x:Static SystemColors.InfoBrushKey}}" FontSize="36" FontWeight="SemiBold" TextOptions.TextFormattingMode="Display" />
-                <Button x:Name="Digit_8" Content="8" Margin="10" Width="60" Height="60" Background="{DynamicResource {x:Static SystemColors.InfoBrushKey}}" FontSize="36" FontWeight="SemiBold" TextOptions.TextFormattingMode="Display" />
-                <Button x:Name="Digit_9" Content="9" Margin="10" Width="60" Height="60" Background="{DynamicResource {x:Static SystemColors.InfoBrushKey}}" FontSize="36" FontWeight="SemiBold" TextOptions.TextFormattingMode="Display" />
+                <Button x:Name="Digit_2" Content="2" Margin="10" Width="60" Height="60" Background="{DynamicResource {x:Static SystemColors.InfoBrushKey}}" FontSize="36" FontWeight="SemiBold" TextOptions.TextFormattingMode="Display"/>
+                <Button x:Name="Digit_3" Content="3" Margin="10" Width="60" Height="60" Background="{DynamicResource {x:Static SystemColors.InfoBrushKey}}" FontSize="36" FontWeight="SemiBold" TextOptions.TextFormattingMode="Display"/>
+                <Button x:Name="Digit_4" Content="4" Margin="10" Width="60" Height="60" Background="{DynamicResource {x:Static SystemColors.InfoBrushKey}}" FontSize="36" FontWeight="SemiBold" TextOptions.TextFormattingMode="Display"/>
+                <Button x:Name="Digit_5" Content="5" Margin="10" Width="60" Height="60" Background="{DynamicResource {x:Static SystemColors.InfoBrushKey}}" FontSize="36" FontWeight="SemiBold" TextOptions.TextFormattingMode="Display"/>
+                <Button x:Name="Digit_6" Content="6" Margin="10" Width="60" Height="60" Background="{DynamicResource {x:Static SystemColors.InfoBrushKey}}" FontSize="36" FontWeight="SemiBold" TextOptions.TextFormattingMode="Display"/>
+                <Button x:Name="Digit_7" Content="7" Margin="10" Width="60" Height="60" Background="{DynamicResource {x:Static SystemColors.InfoBrushKey}}" FontSize="36" FontWeight="SemiBold" TextOptions.TextFormattingMode="Display"/>
+                <Button x:Name="Digit_8" Content="8" Margin="10" Width="60" Height="60" Background="{DynamicResource {x:Static SystemColors.InfoBrushKey}}" FontSize="36" FontWeight="SemiBold" TextOptions.TextFormattingMode="Display"/>
+                <Button x:Name="Digit_9" Content="9" Margin="10" Width="60" Height="60" Background="{DynamicResource {x:Static SystemColors.InfoBrushKey}}" FontSize="36" FontWeight="SemiBold" TextOptions.TextFormattingMode="Display"/>
             </WrapPanel>
             <WrapPanel Name="PencilPanel" Margin="10,0,0,10" Grid.Row="0" HorizontalAlignment="Left" Width="240" Height="241" VerticalAlignment="Bottom">
-                <Button x:Name="Pencil_1" Content="1" Padding="8 0 0 0" Margin="10" Width="60" Height="60" Background="{DynamicResource {x:Static SystemColors.InfoBrushKey}}" FontSize="20" HorizontalContentAlignment="Left" VerticalContentAlignment="Top" FontWeight="Medium" />
-                <Button x:Name="Pencil_2" Content="2" Margin="10" Width="60" Height="60" Background="{DynamicResource {x:Static SystemColors.InfoBrushKey}}" FontSize="20" HorizontalAlignment="Right" HorizontalContentAlignment="Center" VerticalContentAlignment="Top" FontWeight="Medium" />
+                <Button x:Name="Pencil_1" Content="1" Padding="8 0 0 0" Margin="10" Width="60" Height="60" Background="{DynamicResource {x:Static SystemColors.InfoBrushKey}}" FontSize="20" HorizontalContentAlignment="Left" VerticalContentAlignment="Top" FontWeight="Medium"/>
+                <Button x:Name="Pencil_2" Content="2" Margin="10" Width="60" Height="60" Background="{DynamicResource {x:Static SystemColors.InfoBrushKey}}" FontSize="20" HorizontalAlignment="Right" HorizontalContentAlignment="Center" VerticalContentAlignment="Top" FontWeight="Medium"  />
                 <Button x:Name="Pencil_3" Content="3" Padding="0 0 8 0" Margin="10" Width="60" Height="60" Background="{DynamicResource {x:Static SystemColors.InfoBrushKey}}" FontSize="20" HorizontalAlignment="Right" HorizontalContentAlignment="Right" VerticalContentAlignment="Top" FontWeight="Medium" />
-                <Button x:Name="Pencil_4" Content="4" Padding="8 0 0 0" Margin="10" Width="60" Height="60" Background="{DynamicResource {x:Static SystemColors.InfoBrushKey}}" FontSize="20" HorizontalAlignment="Right" VerticalContentAlignment="Center" HorizontalContentAlignment="Left" FontWeight="Medium" />
-                <Button x:Name="Pencil_5" Content="5" Margin="10" Width="60" Height="60" Background="{DynamicResource {x:Static SystemColors.InfoBrushKey}}" FontSize="20" HorizontalAlignment="Right" FontWeight="Medium" />
+                <Button x:Name="Pencil_4" Content="4" Padding="8 0 0 0" Margin="10" Width="60" Height="60" Background="{DynamicResource {x:Static SystemColors.InfoBrushKey}}" FontSize="20" HorizontalAlignment="Right" VerticalContentAlignment="Center" HorizontalContentAlignment="Left" FontWeight="Medium"/>
+                <Button x:Name="Pencil_5" Content="5" Margin="10" Width="60" Height="60" Background="{DynamicResource {x:Static SystemColors.InfoBrushKey}}" FontSize="20" HorizontalAlignment="Right" FontWeight="Medium"/>
                 <Button x:Name="Pencil_6" Content="6" Padding="0 0 8 0" Margin="10" Width="60" Height="60" Background="{DynamicResource {x:Static SystemColors.InfoBrushKey}}" FontSize="20" HorizontalAlignment="Right" HorizontalContentAlignment="Right" FontWeight="Medium" />
                 <Button x:Name="Pencil_7" Content="7" Padding="8 0 0 2" Margin="10" Width="60" Height="60" Background="{DynamicResource {x:Static SystemColors.InfoBrushKey}}" FontSize="20" HorizontalAlignment="Right" VerticalContentAlignment="Bottom" HorizontalContentAlignment="Left" FontWeight="Medium" />
                 <Button x:Name="Pencil_8" Content="8" Padding="0 0 0 2" Margin="10" Width="60" Height="60" Background="{DynamicResource {x:Static SystemColors.InfoBrushKey}}" FontSize="20" HorizontalAlignment="Right" VerticalContentAlignment="Bottom" FontWeight="Medium" />
