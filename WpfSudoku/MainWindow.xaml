@@ -179,7 +179,7 @@
                 <Button Content="Button" Margin="0 5" Height="40"/>
                 <Button x:Name="Btn_Load" Content="Load" Margin="0 5" Height="40" Click="Btn_Load_Click"/>
                 <Button x:Name="Btn_Save" Content="Save" Margin="0 5" Height="40" Click="Btn_Save_Click"/>
-                <Slider x:Name="EmptyCellsSlider" HorizontalAlignment="Left" Height="41" Margin="-128,10,0,0" Width="275" SmallChange="1" Maximum="80" LargeChange="10" Value="60" Cursor="ScrollWE"/>
+                <Slider x:Name="EmptyCellsSlider" HorizontalAlignment="Left" Height="41" Margin="-128,10,0,0" Width="275" SmallChange="1" Maximum="80" LargeChange="10" Value="55" Cursor="ScrollWE"/>
 
             </StackPanel>
             <WrapPanel Name="DigitPanel" Height="230" Margin="10,0,0,21" Grid.Row="1" VerticalAlignment="Bottom" HorizontalAlignment="Left" Width="240">
@@ -206,11 +206,12 @@
             </WrapPanel>
             <StackPanel Margin="255,22,15,27" Grid.Row="0">
                 <ComboBox x:Name="Solvingstrategy" Text="E" Height="30">
-                    <Button x:Name="Btn_ConfirmNakedPair" Content="Naked Pair" Click="Btn_ConfirmNakedPair_Click"/>
-                    <Button x:Name="Btn_ConfirmNakedTriple" Content="Naked Triple" Click="Btn_ConfirmNakedTriple_Click" />
-                    <Button x:Name="Btn_ConfirmNakedQuad" Content="Naked Quad" Click="Btn_ConfirmNakedQuad_Click"/>
-                    <Button x:Name="Btn_ConfirmHiddenPair" Content="Hidden Pair" Click="Btn_ConfirmHiddenPair_Click" />
-                    <Button x:Name="Btn_ConfirmHiddenTriple" Content="Hidden Triple" Click="Btn_ConfirmHiddenTriple_Click" />
+                    <Button x:Name="Btn_ConfirmNakedPair" Content="Naked Pair" Click="Btn_ConfirmNakedPair_Click" FontSize="16"/>
+                    <Button x:Name="Btn_ConfirmNakedTriple" Content="Naked Triple" Click="Btn_ConfirmNakedTriple_Click" FontSize="16" />
+                    <Button x:Name="Btn_ConfirmNakedQuad" Content="Naked Quad" Click="Btn_ConfirmNakedQuad_Click" FontSize="16"/>
+                    <Button x:Name="Btn_ConfirmHiddenPair" Content="Hidden Pair" Click="Btn_ConfirmHiddenPair_Click" FontSize="16" />
+                    <Button x:Name="Btn_ConfirmHiddenTriple" Content="Hidden Triple" Click="Btn_ConfirmHiddenTriple_Click" FontSize="16" />
+                    <Button x:Name="Btn_ConfirmLockedCandidates" Content="Locked Candies" Click="Btn_ConfirmLockedCandidates_Click" FontSize="16"/>
                 </ComboBox>
             </StackPanel>
             <StackPanel Margin="250,23,15,21" Grid.Row="1">

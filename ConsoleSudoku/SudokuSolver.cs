@@ -25,7 +25,7 @@ namespace ConsoleSudoku
 
         }
 
-        #region SoverHelper
+        #region PencilLabelHelper
 
         private static void LabelCandidatesOneCell(this Grid grid, Cell cell)
         {
@@ -82,6 +82,10 @@ namespace ConsoleSudoku
                 }
             }
         }
+
+        #endregion
+
+        #region SolverHelper
 
         public static void ConfirmNakedSingle(this Sudoku grid)
         {
@@ -153,6 +157,22 @@ namespace ConsoleSudoku
                      .ForEach(c => c.Candidates.RemoveAll(e => e == nq.Elem1 || e == nq.Elem2 || e == nq.Elem3 || e == nq.Elem4));
             }
         }
+
+        public static void ConfirmLockedCandidates(this Sudoku grid, IEnumerable<Tuple<Elements, List<Cell>>> lockedCandidates)
+        {
+            if (lockedCandidates.Count() > 0)
+            {
+                var cellsToBeEliminateElem = lockedCandidates.First().Item2;
+                var ele = lockedCandidates.First().Item1;
+                foreach (var cell in cellsToBeEliminateElem)
+                {
+                    cell.Candidates.Remove(ele);
+                }
+            }
+        }
+
+
+
         #endregion
     }
 }

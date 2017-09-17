@@ -24,11 +24,11 @@ namespace ConsoleSudoku
 
         public IEnumerable<Tuple<Elements, Elements, Cell, Cell, House>> NakedPairs =>
              Houses.SelectMany(h => h.Where(c => c.Digit == null)
-                                        .Where(c => c.Candidates.Count == 2)
-                                        .GroupBy(c => c.Candidates, new ListEqualComparer())
-                                        .Where(g => g.Count() == 2)
-                                        .Select(g => new Tuple<Elements, Elements, Cell, Cell, House>
-                                            (g.Key[0], g.Key[1], g.ToArray()[0], g.ToArray()[1], h)));
+                                    .Where(c => c.Candidates.Count == 2)
+                                    .GroupBy(c => c.Candidates, new ListEqualComparer())
+                                    .Where(g => g.Count() == 2)
+                                    .Select(g => new Tuple<Elements, Elements, Cell, Cell, House>
+                                        (g.Key[0], g.Key[1], g.ToArray()[0], g.ToArray()[1], h)));
 
 
         public IEnumerable<Tuple<Elements, Elements, Elements, Cell, Cell, Cell, House>> NakedTriples()
@@ -36,40 +36,42 @@ namespace ConsoleSudoku
             var nt = new List<Tuple<Elements, Elements, Elements, Cell, Cell, Cell, House>>();
             foreach (var house in Houses)
             {
-                var cellLeq3Candies = house.Where(c => c.Digit == null)
-                                           .Where(c => c.Candidates.Count <= 3).ToList();
-
-                startOverFindingNewNakedTriples:
-                while (cellLeq3Candies.Count >= 3)
+                if (house.Where(c => c.Digit != null).Count() < 6)
                 {
-                    var cell1 = cellLeq3Candies[0];
-                    List <Elements> elems = new List<Elements>(cell1.Candidates);
-                    for (int i = 1; i < cellLeq3Candies.Count-1; i++)
+                    var cellLeq3Candies = house.Where(c => c.Digit == null)
+                                               .Where(c => c.Candidates.Count <= 3).ToList();
+
+                    startOverFindingNewNakedTriples:
+                    while (cellLeq3Candies.Count >= 3 && house.Where(c => c.Digit != null).Count() < 6)
                     {
-                        if(elems.Union(cellLeq3Candies[i].Candidates).Count() == 3)
+                        var cell1 = cellLeq3Candies[0];
+                        List <Elements> elems = new List<Elements>(cell1.Candidates);
+                        for (int i = 1; i < cellLeq3Candies.Count-1; i++)
                         {
-                            var cell2 = cellLeq3Candies[i];
-                            elems = elems.Union(cell2.Candidates).ToList();
-                            for (int j = i+1; j < cellLeq3Candies.Count; j++)
+                            if(elems.Union(cellLeq3Candies[i].Candidates).Count() == 3)
                             {
-                                if (elems.Union(cellLeq3Candies[j].Candidates).Count() == 3)
+                                var cell2 = cellLeq3Candies[i];
+                                elems = elems.Union(cell2.Candidates).ToList();
+                                for (int j = i+1; j < cellLeq3Candies.Count; j++)
                                 {
-                                    var cell3 = cellLeq3Candies[j];
-                                    elems = elems.Union(cell3.Candidates).ToList();
-                                    nt.Add(new Tuple<Elements, Elements, Elements, Cell, Cell, Cell, House>
-                                        (elems[0], elems[1], elems[2], cell1, cell2, cell3, house));
-                                    cellLeq3Candies.Remove(cell1);
-                                    cellLeq3Candies.Remove(cell2);
-                                    cellLeq3Candies.Remove(cell3);
-                                    goto startOverFindingNewNakedTriples;
+                                    if (elems.Union(cellLeq3Candies[j].Candidates).Count() == 3)
+                                    {
+                                        var cell3 = cellLeq3Candies[j];
+                                        elems = elems.Union(cell3.Candidates).ToList();
+                                        nt.Add(new Tuple<Elements, Elements, Elements, Cell, Cell, Cell, House>
+                                            (elems[0], elems[1], elems[2], cell1, cell2, cell3, house));
+                                        cellLeq3Candies.Remove(cell1);
+                                        cellLeq3Candies.Remove(cell2);
+                                        cellLeq3Candies.Remove(cell3);
+                                        goto startOverFindingNewNakedTriples;
+                                    }
                                 }
                             }
                         }
+                        // Here we did not find any cells that can form a NakedTriple with cell1
+                        cellLeq3Candies.Remove(cell1);
                     }
-                    // Here we did not find any cells that can form a NakedTriple with cell1
-                    cellLeq3Candies.Remove(cell1);
                 }
-                
             }
             return nt;
         }
@@ -79,47 +81,50 @@ namespace ConsoleSudoku
             var nq = new List<Tuple<Elements, Elements, Elements, Elements, Cell, Cell, Cell, Cell, House>>();
             foreach (var house in Houses)
             {
-                var cellLeq4Candies = house.Where(c => c.Digit == null)
-                                           .Where(c => c.Candidates.Count <= 4).ToList();
-
-                startOverFindingNewNakedQuad:
-                while (cellLeq4Candies.Count >= 4)
+                if (house.Where(c => c.Digit != null).Count() < 5)
                 {
-                    var cell1 = cellLeq4Candies[0];
-                    List<Elements> elems = new List<Elements>(cell1.Candidates);
-                    for (int i = 1; i < cellLeq4Candies.Count-2; i++)
+                    var cellLeq4Candies = house.Where(c => c.Digit == null)
+                                               .Where(c => c.Candidates.Count <= 4).ToList();
+
+                    startOverFindingNewNakedQuad:
+                    while (cellLeq4Candies.Count >= 4)
                     {
-                        if (elems.Union(cellLeq4Candies[i].Candidates).Count() <= 4)
+                        var cell1 = cellLeq4Candies[0];
+                        List<Elements> elems = new List<Elements>(cell1.Candidates);
+                        for (int i = 1; i < cellLeq4Candies.Count-2; i++)
                         {
-                            var cell2 = cellLeq4Candies[i];
-                            elems = elems.Union(cell2.Candidates).ToList();
-                            for (int j = i+1; j < cellLeq4Candies.Count-1; j++)
+                            if (elems.Union(cellLeq4Candies[i].Candidates).Count() <= 4)
                             {
-                                if (elems.Union(cellLeq4Candies[j].Candidates).Count() <=4)
+                                var cell2 = cellLeq4Candies[i];
+                                elems = elems.Union(cell2.Candidates).ToList();
+                                for (int j = i+1; j < cellLeq4Candies.Count-1; j++)
                                 {
-                                    var cell3 = cellLeq4Candies[j];
-                                    elems = elems.Union(cell3.Candidates).ToList();
-                                    for (int k = j+1; k < cellLeq4Candies.Count; k++)
+                                    if (elems.Union(cellLeq4Candies[j].Candidates).Count() <=4)
                                     {
-                                        if (elems.Union(cellLeq4Candies[k].Candidates).Count() == 4)
+                                        var cell3 = cellLeq4Candies[j];
+                                        elems = elems.Union(cell3.Candidates).ToList();
+                                        for (int k = j+1; k < cellLeq4Candies.Count; k++)
                                         {
-                                            var cell4 = cellLeq4Candies[k];
-                                            elems = elems.Union(cell4.Candidates).ToList();
-                                            nq.Add(new Tuple<Elements, Elements, Elements, Elements, Cell, Cell, Cell, Cell, House>
-                                                (elems[0], elems[1], elems[2], elems[3], cell1, cell2, cell3, cell4, house));
-                                            cellLeq4Candies.Remove(cell1);
-                                            cellLeq4Candies.Remove(cell2);
-                                            cellLeq4Candies.Remove(cell3);
-                                            cellLeq4Candies.Remove(cell4);
-                                            goto startOverFindingNewNakedQuad;
+                                            if (elems.Union(cellLeq4Candies[k].Candidates).Count() == 4)
+                                            {
+                                                var cell4 = cellLeq4Candies[k];
+                                                elems = elems.Union(cell4.Candidates).ToList();
+                                                nq.Add(new Tuple<Elements, Elements, Elements, Elements, Cell, Cell, Cell, Cell, House>
+                                                    (elems[0], elems[1], elems[2], elems[3], cell1, cell2, cell3, cell4, house));
+                                                cellLeq4Candies.Remove(cell1);
+                                                cellLeq4Candies.Remove(cell2);
+                                                cellLeq4Candies.Remove(cell3);
+                                                cellLeq4Candies.Remove(cell4);
+                                                goto startOverFindingNewNakedQuad;
+                                            }
                                         }
                                     }
                                 }
                             }
                         }
+                        // Here we did not find any cells that can form a NakedQuad with cell1
+                        cellLeq4Candies.Remove(cell1);
                     }
-                    // Here we did not find any cells that can form a NakedQuad with cell1
-                    cellLeq4Candies.Remove(cell1);
                 }
             }
 
@@ -144,25 +149,27 @@ namespace ConsoleSudoku
             var hp = new List<Tuple<Elements, Elements, Cell, Cell, House>>();
             foreach (var house in Houses)
             {
-                var pairElems =  house.Where(c => c.Digit == null)
-                                     .SelectMany(c => c.Candidates)
-                                     .GroupBy(e => e)
-                                     .Where(g => g.Count() == 2)
-                                     .Select(g => g.Key)
-                                     .ToList();
-
-                if (pairElems.Count == 2)
+                if (house.Where(c => c.Digit != null).Count() < 7)
                 {
-                    var pairCells = house.Where(c => c.Digit == null)
-                                         .Where(c => c.Candidates.Intersect(pairElems).Count()==2)
+                    var pairElems =  house.Where(c => c.Digit == null)
+                                         .SelectMany(c => c.Candidates)
+                                         .GroupBy(e => e)
+                                         .Where(g => g.Count() == 2)
+                                         .Select(g => g.Key)
                                          .ToList();
-                    if (pairCells.Count == 2)
+
+                    if (pairElems.Count == 2)
                     {
-                        hp.Add(new Tuple<Elements, Elements, Cell, Cell, House>(
-                            pairElems[0], pairElems[1], pairCells[0], pairCells[1], house));
+                        var pairCells = house.Where(c => c.Digit == null)
+                                             .Where(c => c.Candidates.Intersect(pairElems).Count()==2)
+                                             .ToList();
+                        if (pairCells.Count == 2)
+                        {
+                            hp.Add(new Tuple<Elements, Elements, Cell, Cell, House>(
+                                pairElems[0], pairElems[1], pairCells[0], pairCells[1], house));
+                        }
                     }
                 }
-
             }
             return hp;
         }
@@ -172,27 +179,75 @@ namespace ConsoleSudoku
             var ht = new List<Tuple<Elements, Elements, Elements, Cell, Cell, Cell, House>>();
             foreach (var house in Houses)
             {
-                var tripleElems = house.Where(c => c.Digit == null)
-                                       .SelectMany(c => c.Candidates)
-                                       .GroupBy(e => e)
-                                       .Where(g => g.Count() <= 3)
-                                       .Select(g => g.Key)
-                                       .ToList();
-
-                if (tripleElems.Count == 3)
+                if (house.Where(c=>c.Digit!=null).Count()<6)
                 {
-                    var tripleCells = house.Where(c => c.Digit == null)
-                                           .Where(c => c.Candidates.Intersect(tripleElems).Count() <= 3)
+                    var tripleElems = house.Where(c => c.Digit == null)
+                                           .SelectMany(c => c.Candidates)
+                                           .GroupBy(e => e)
+                                           .Where(g => g.Count() <= 3)
+                                           .Select(g => g.Key)
                                            .ToList();
-                    if (tripleCells.Count == 3)
+
+                    if (tripleElems.Count == 3)
                     {
-                        ht.Add(new Tuple<Elements, Elements, Elements, Cell, Cell, Cell, House>
-                            (tripleElems[0], tripleElems[1], tripleElems[2], tripleCells[0], tripleCells[1], tripleCells[2], house));
+                        var tripleCells = house.Where(c => c.Digit == null)
+                                               .Where(c => c.Candidates.Intersect(tripleElems).Count() <= 3)
+                                               .ToList();
+                        if (tripleCells.Count == 3)
+                        {
+                            ht.Add(new Tuple<Elements, Elements, Elements, Cell, Cell, Cell, House>
+                                (tripleElems[0], tripleElems[1], tripleElems[2], tripleCells[0], tripleCells[1], tripleCells[2], house));
+                        }
                     }
                 }
             }
             return ht;
         }
+
+        public IEnumerable<Tuple<Elements, List<Cell>>> LockedCandidates_SingleLine()
+        {
+            foreach (Elements ele in Enum.GetValues(typeof(Elements)))
+            {
+                foreach (var block in Blocks)
+                {
+                    var cellCouldBeElem = block.Where(c => c.Digit == null)
+                                               .Where(c => c.Candidates.Contains(ele));
+
+                    var rows = cellCouldBeElem.Select(c => c.Position.Item1).Distinct();
+                    var cols = cellCouldBeElem.Select(c => c.Position.Item2).Distinct();
+                    // Candidate of this elem locked in a line
+                    if (rows.Count() == 1 || cols.Count() == 1)
+                    {
+                        var line = rows.Count() == 1 ? rows.First() : cols.First();
+
+                        // Cells in other blocks at the same line cannot have this elem in their candidates
+                        var cellsToBeEliminateElem = rows.Count() == 1
+                            ? Rows[line].Where(c => !block.Contains(c))
+                                             .Where(c => c.Digit == null)
+                                             .Where(c => c.Candidates.Contains(ele))
+                                             .ToList()
+                            : Columns[line].Where(c => !block.Contains(c))
+                                                .Where(c => c.Digit == null)
+                                                .Where(c => c.Candidates.Contains(ele))
+                                                .ToList();
+
+                        if (cellsToBeEliminateElem.Count > 0)
+                        {
+                            yield return new Tuple<Elements, List<Cell>>(ele, cellsToBeEliminateElem);
+                        }
+                    }
+                }
+            }
+        }
+
+        public IEnumerable<Tuple<Elements, List<Cell>>> LockedCandidates_DoubleLine()
+        {
+            foreach (var block in Blocks)
+            {
+                
+            }
+        }
+
     }
 
 

@@ -102,6 +102,17 @@ namespace WpfSudoku
 
         #region CellDataBinding
 
+        private IEnumerable<Button> GetButtons(IEnumerable<Cell> cells)
+        {
+            foreach (Button btn in FindVisualChildren<Button>(Matrix))
+            {
+                if (cells.Contains(GetCell(btn)))
+                {
+                    yield return btn;
+                }
+            }
+        }
+
         private Cell GetCell(Button btn)
         {
             if (btn.Name.Length != 3)
@@ -578,20 +589,14 @@ namespace WpfSudoku
             thisButton.Click -= DisplayCell;
             foreach (var hiddenSingle in sudoku.HiddenSingles)
             {
-                foreach (Button btn in FindVisualChildren<Button>(Matrix))
+                var btn = GetButtons(new Cell[] { hiddenSingle.Item2 }).FirstOrDefault();
+                btn.Background = Brushes.PaleGreen;
+                btn.Content = new ContentControl
                 {
-                    var cell = GetCell(btn);
-                    if (cell == hiddenSingle.Item2)
-                    {
-                        btn.Background = Brushes.PaleGreen;
-                        btn.Content = new ContentControl
-                        {
-                            Foreground = Brushes.RosyBrown,
-                            FontSize = 50,
-                            Content = (int)hiddenSingle.Item1 + 1
-                        };
-                    }
-                }
+                    Foreground = Brushes.RosyBrown,
+                    FontSize = 50,
+                    Content = (int)hiddenSingle.Item1 + 1
+                };
             }
         }
 
@@ -600,15 +605,10 @@ namespace WpfSudoku
             var nakedPairs = sudoku.NakedPairs;
             foreach (var nakedPair in nakedPairs)
             {
-                var cell1 = nakedPair.Item3;
-                var cell2 = nakedPair.Item4;
-                foreach (Button btn in FindVisualChildren<Button>(Matrix))
+                var buttons = GetButtons(new Cell[] { nakedPair.Item3, nakedPair.Item4 });
+                foreach (var btn in buttons)
                 {
-                    var cell = GetCell(btn);
-                    if (cell == cell1 || cell == cell2 )
-                    {
-                        btn.Background = Brushes.LawnGreen;
-                    }
+                      btn.Background = Brushes.LawnGreen;
                 }
             }
             sudoku.ConfirmNakedPairs(nakedPairs);
@@ -619,16 +619,10 @@ namespace WpfSudoku
             var nakedTriples = sudoku.NakedTriples();
             foreach (var nt in nakedTriples)
             {
-                var cell1 = nt.Item4;
-                var cell2 = nt.Item5;
-                var cell3 = nt.Item6;
-                foreach (Button btn in FindVisualChildren<Button>(Matrix))
+                var buttons = GetButtons(new Cell[] { nt.Item4, nt.Item5, nt.Item6 });
+                foreach (var btn in buttons)
                 {
-                    var cell = GetCell(btn);
-                    if (cell == cell1 || cell == cell2 || cell == cell3)
-                    {
                         btn.Background = Brushes.PaleGreen;
-                    }
                 }
             }
             sudoku.ConfirmNakedTriples(nakedTriples);
@@ -639,13 +633,10 @@ namespace WpfSudoku
             var nakedQuads = sudoku.NakedQuads();
             foreach (var nq in nakedQuads)
             {
-                foreach (Button btn in FindVisualChildren<Button>(Matrix))
+                var buttons = GetButtons(new Cell[] { nq.Cell1, nq.Cell2, nq.Cell3, nq.Cell4 });
+                foreach (var btn in buttons)
                 {
-                    var cell = GetCell(btn);
-                    if (new Cell[] { nq.Cell1,nq.Cell2,nq.Cell3,nq.Cell4}.Contains(cell))
-                    {
-                        btn.Background = Brushes.SpringGreen;
-                    }
+                    btn.Background = Brushes.SpringGreen;
                 }
             }
             sudoku.ConfirmNakedQuads(nakedQuads);
@@ -657,13 +648,10 @@ namespace WpfSudoku
             thisButton.Click -= DisplayCell;
             foreach (var hiddenPair in sudoku.HiddenPairs())
             {
-                foreach (Button btn in FindVisualChildren<Button>(Matrix))
+                var buttons = GetButtons(new Cell[] { hiddenPair.Item3, hiddenPair.Item4 });
+                foreach (var btn in buttons)
                 {
-                    var cell = GetCell(btn);
-                    if (cell == hiddenPair.Item3 || cell == hiddenPair.Item4)
-                    {
                         btn.Background = Brushes.PowderBlue;
-                    }
                 }
             }
         }
@@ -674,19 +662,35 @@ namespace WpfSudoku
             thisButton.Click -= DisplayCell;
             foreach (var hiddenTriple in sudoku.HiddenTriples())
             {
-                foreach (Button btn in FindVisualChildren<Button>(Matrix))
+                var buttons = GetButtons(new Cell[] { hiddenTriple.Item4, hiddenTriple.Item5, hiddenTriple.Item6 });
+                foreach (var btn in buttons)
                 {
-                    var cell = GetCell(btn);
-                    if (new Cell[] { hiddenTriple.Item4, hiddenTriple.Item5, hiddenTriple.Item6 }.Contains(cell)) 
-                    {
-                        btn.Background = Brushes.CadetBlue;
-                    }
+                    btn.Background = Brushes.CadetBlue;
                 }
             }
         }
 
+        private void Btn_ConfirmLockedCandidates_Click(object sender, RoutedEventArgs e)
+        {
+            ResetGridColor();
+            CellToBeWrite = null;
+
+            var lockedCandidates = sudoku.LockedCandidates_SingleLine();
+            if (lockedCandidates.Count() > 1)
+            {
+                var elem = lockedCandidates.First().Item1;
+                var cells = lockedCandidates.First().Item2;
+                HighlightGridDigitColor(elem);
+                foreach (var btn in GetButtons(cells))
+                {
+                    btn.Background = Brushes.Pink;
+                }
+            }
+            sudoku.ConfirmLockedCandidates(lockedCandidates);
+        }
 
 
         #endregion
+
     }
 }
